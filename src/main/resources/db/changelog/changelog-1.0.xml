@@ -8,7 +8,7 @@
     <!-- ChangeSet to create the database -->
     <changeSet id="createDatabase" author="Csaba79coder">
         <sql>
-            CREATE DATABASE IF NOT EXISTS webler_apartment_reservation
+            CREATE DATABASE IF NOT EXISTS ${DB_URL_MYSQL}
             DEFAULT CHARACTER SET utf8
             DEFAULT COLLATE utf8_general_ci;
         </sql>
