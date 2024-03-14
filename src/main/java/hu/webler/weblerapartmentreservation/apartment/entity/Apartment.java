@@ -1,9 +1,8 @@
 package hu.webler.weblerapartmentreservation.apartment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import hu.webler.weblerapartmentreservation.apartment.value.ApartmentStatus;
+import hu.webler.weblerapartmentreservation.apartment.value.ApartmentType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +20,17 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
+
+    private Integer floorNumber;
+    private Integer roomNumber;
+    private Integer minGuest;
+    private Integer maxGuest;
+
+    @Enumerated(value = EnumType.STRING)
+    private ApartmentType apartmentType;
     private String description;
+
+    @Enumerated(value = EnumType.STRING)
+    private ApartmentStatus apartmentStatus;
     private BigDecimal price;
-    private int roomNumber;
-    private int floorNumber;
 }
