@@ -31,6 +31,6 @@ public class Apartment {
     private String description;
 
     @Enumerated(value = EnumType.STRING)
-    private ApartmentStatus apartmentStatus;
+    private ApartmentStatus apartmentStatus = ApartmentStatus.AVAILABLE;
     private BigDecimal price;
 }
