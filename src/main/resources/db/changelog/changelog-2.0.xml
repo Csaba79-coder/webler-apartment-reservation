@@ -21,16 +21,16 @@
             <column name="maxGuest" type="Integer">
                 <constraints nullable="false"/>
             </column>
-            <column name="apartmentType" type="ENUM">
+            <column name="apartmentType" type="ENUM('SINGLE', 'DOUBLE', 'TRIPLE', 'QUEEN', 'KING', 'TWIN', 'SUIT', 'STANDARD')">
                 <constraints nullable="false"/>
             </column>
             <column name="description" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="apartmentStatus" type="ENUM">
+            <column name="apartmentStatus" type="ENUM('AVAILABLE', 'BOOKED')">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="BigDecimal">
+            <column name="price" type="Decimal">
                 <constraints nullable="false"/>
             </column>
         </createTable>
