@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ApartmentUpdateModel {
 
-    private Long id;
     private Integer floorNumber;
     private Integer roomNumber;
     private Integer minGuest;
