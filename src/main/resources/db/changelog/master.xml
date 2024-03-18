@@ -7,7 +7,7 @@
 
     <!-- Include the changelog-1.0.xml file without classpath: -->
     <include file="changelog-1.0.xml" relativeToChangelogFile="true"/>
-
-    <!-- Add more includes or changeSets as needed -->
+    <include file="changelog-2.0.xml" relativeToChangelogFile="true"/>
+    <include file="changelog-3.0.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
