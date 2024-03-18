@@ -10,16 +10,16 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="first_name" type="String">
+            <column name="first_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_name" type="String">
+            <column name="last_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" type="String">
+            <column name="email" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="phone_number" type="String">
+            <column name="phone_number" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
