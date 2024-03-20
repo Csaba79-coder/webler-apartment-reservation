@@ -1,4 +1,4 @@
-package hu.webler.weblerapartmentreservation.apartment.model;
+package hu.webler.weblerapartmentreservation.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
