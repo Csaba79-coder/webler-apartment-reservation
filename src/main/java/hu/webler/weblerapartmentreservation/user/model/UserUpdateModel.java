@@ -1,22 +1,15 @@
-package hu.webler.weblerapartmentreservation.apartment.entity;
+package hu.webler.weblerapartmentreservation.user.model;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "reservation_user")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserUpdateModel {
 
     private String firstName;
     private String lastName;

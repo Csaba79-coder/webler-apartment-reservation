@@ -1,9 +1,9 @@
-package hu.webler.weblerapartmentreservation.apartment.util;
+package hu.webler.weblerapartmentreservation.user.util;
 
-import hu.webler.weblerapartmentreservation.apartment.entity.User;
-import hu.webler.weblerapartmentreservation.apartment.model.UserCreateModel;
-import hu.webler.weblerapartmentreservation.apartment.model.UserModel;
-import hu.webler.weblerapartmentreservation.apartment.model.UserUpdateModel;
+import hu.webler.weblerapartmentreservation.user.entity.User;
+import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
+import hu.webler.weblerapartmentreservation.user.model.UserModel;
+import hu.webler.weblerapartmentreservation.user.model.UserUpdateModel;
 
 public class UserMapper {
 
