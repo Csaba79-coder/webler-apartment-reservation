@@ -40,7 +40,7 @@ public class ApartmentController {
     }
 
     @PatchMapping("/apartments/{id}")
-    public ResponseEntity<ApartmentModel> updateCourse(@PathVariable Long id, @RequestBody ApartmentUpdateModel apartmentUpdateModel) {
+    public ResponseEntity<ApartmentModel> updateApartment(@PathVariable Long id, @RequestBody ApartmentUpdateModel apartmentUpdateModel) {
         return ResponseEntity.status(200).body(apartmentService.updateApartment(id, apartmentUpdateModel));
     }
 }
