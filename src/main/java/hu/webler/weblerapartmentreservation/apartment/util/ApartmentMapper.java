@@ -47,7 +47,6 @@ public class ApartmentMapper {
         return apartment;
     }
 
-
     private ApartmentMapper() {
     }
 }
