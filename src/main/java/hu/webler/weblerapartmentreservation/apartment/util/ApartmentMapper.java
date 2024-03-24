@@ -29,7 +29,6 @@ public class ApartmentMapper {
         apartment.setMaxGuest(apartmentCreateModel.getMaxGuest());
         apartment.setApartmentType(apartmentCreateModel.getApartmentType());
         apartment.setDescription(apartmentCreateModel.getDescription());
-        apartment.setDescription(apartmentCreateModel.getDescription());
         apartment.setPrice(apartmentCreateModel.getPrice());
         return apartment;
     }
@@ -52,7 +51,7 @@ public class ApartmentMapper {
             apartment.setApartmentType(apartmentUpdateModel.getApartmentType());
         }
         if (apartmentUpdateModel.getDescription() != null) {
-            apartment.setDescription(apartment.getDescription());
+            apartment.setDescription(apartmentUpdateModel.getDescription());
         }
         if (apartmentUpdateModel.getApartmentStatus() != null) {
             apartment.setApartmentStatus(apartmentUpdateModel.getApartmentStatus());
