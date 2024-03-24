@@ -46,9 +46,12 @@ public class ApartmentService {
     }
 
     public ApartmentModel updateApartment(Long id, ApartmentUpdateModel apartmentUpdateModel) {
-        if (findApartmentById(id) != null) {
-            return ApartmentMapper.mapApartmentEntityToApartmentModel(apartmentRepository.save(ApartmentMapper.mapApartmentUpdateModelToApartmentEntity(apartmentUpdateModel)));
-
+        Apartment apartment = findApartmentById(id);
+        if (apartment != null) {
+            ApartmentMapper.mapApartmentUpdateModelToApartmentEntity(apartment, apartmentUpdateModel);
+            apartment = apartmentRepository.save(apartment);
+            return ApartmentMapper.mapApartmentEntityToApartmentModel(apartment);
         }
+        return null;
     }
 }
