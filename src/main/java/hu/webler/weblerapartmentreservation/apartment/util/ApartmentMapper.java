@@ -5,6 +5,8 @@ import hu.webler.weblerapartmentreservation.apartment.model.ApartmentCreateModel
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentModel;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentUpdateModel;
 
+import java.util.Optional;
+
 public class ApartmentMapper {
 
     public static ApartmentModel mapApartmentEntityToApartmentModel(Apartment apartment) {
@@ -29,38 +31,19 @@ public class ApartmentMapper {
         apartment.setMaxGuest(apartmentCreateModel.getMaxGuest());
         apartment.setApartmentType(apartmentCreateModel.getApartmentType());
         apartment.setDescription(apartmentCreateModel.getDescription());
-        apartment.setDescription(apartmentCreateModel.getDescription());
         apartment.setPrice(apartmentCreateModel.getPrice());
         return apartment;
     }
 
-    public static Apartment mapApartmentUpdateModelToApartmentEntity(ApartmentUpdateModel apartmentUpdateModel) {
-        Apartment apartment = new Apartment();
-        if (apartmentUpdateModel.getFloorNumber() != null) {
-            apartment.setFloorNumber(apartmentUpdateModel.getFloorNumber());
-        }
-        if (apartmentUpdateModel.getRoomNumber() != null) {
-            apartment.setRoomNumber(apartmentUpdateModel.getRoomNumber());
-        }
-        if (apartmentUpdateModel.getMinGuest() != null) {
-            apartment.setMinGuest(apartmentUpdateModel.getMinGuest());
-        }
-        if (apartmentUpdateModel.getMaxGuest() != null) {
-            apartment.setMaxGuest(apartmentUpdateModel.getMaxGuest());
-        }
-        if (apartmentUpdateModel.getApartmentType() != null) {
-            apartment.setApartmentType(apartmentUpdateModel.getApartmentType());
-        }
-        if (apartmentUpdateModel.getDescription() != null) {
-            apartment.setDescription(apartment.getDescription());
-        }
-        if (apartmentUpdateModel.getApartmentStatus() != null) {
-            apartment.setApartmentStatus(apartmentUpdateModel.getApartmentStatus());
-        }
-        if (apartmentUpdateModel.getPrice() != null) {
-            apartment.setPrice(apartmentUpdateModel.getPrice());
-        }
-        return apartment;
+    public static void mapApartmentUpdateModelToApartmentEntity(Apartment apartment, ApartmentUpdateModel apartmentUpdateModel) {
+        Optional.ofNullable(apartmentUpdateModel.getFloorNumber()).ifPresent(apartment::setFloorNumber);
+        Optional.ofNullable(apartmentUpdateModel.getRoomNumber()).ifPresent(apartment::setRoomNumber);
+        Optional.ofNullable(apartmentUpdateModel.getMinGuest()).ifPresent(apartment::setMinGuest);
+        Optional.ofNullable(apartmentUpdateModel.getMaxGuest()).ifPresent(apartment::setMaxGuest);
+        Optional.ofNullable(apartmentUpdateModel.getApartmentType()).ifPresent(apartment::setApartmentType);
+        Optional.ofNullable(apartmentUpdateModel.getDescription()).ifPresent(apartment::setDescription);
+        Optional.ofNullable(apartmentUpdateModel.getApartmentStatus()).ifPresent(apartment::setApartmentStatus);
+        Optional.ofNullable(apartmentUpdateModel.getPrice()).ifPresent(apartment::setPrice);
     }
 
     private ApartmentMapper() {
