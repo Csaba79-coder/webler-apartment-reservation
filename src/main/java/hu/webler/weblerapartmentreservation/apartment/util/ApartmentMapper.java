@@ -35,7 +35,7 @@ public class ApartmentMapper {
         return apartment;
     }
 
-    public static Apartment mapApartmentUpdateModelToApartmentEntity(Apartment apartment, ApartmentUpdateModel apartmentUpdateModel) {
+    public static void mapApartmentUpdateModelToApartmentEntity(Apartment apartment, ApartmentUpdateModel apartmentUpdateModel) {
         Optional.ofNullable(apartmentUpdateModel.getFloorNumber()).ifPresent(apartment::setFloorNumber);
         Optional.ofNullable(apartmentUpdateModel.getRoomNumber()).ifPresent(apartment::setRoomNumber);
         Optional.ofNullable(apartmentUpdateModel.getMinGuest()).ifPresent(apartment::setMinGuest);
@@ -44,7 +44,6 @@ public class ApartmentMapper {
         Optional.ofNullable(apartmentUpdateModel.getDescription()).ifPresent(apartment::setDescription);
         Optional.ofNullable(apartmentUpdateModel.getApartmentStatus()).ifPresent(apartment::setApartmentStatus);
         Optional.ofNullable(apartmentUpdateModel.getPrice()).ifPresent(apartment::setPrice);
-        return apartment;
     }
 
     private ApartmentMapper() {
