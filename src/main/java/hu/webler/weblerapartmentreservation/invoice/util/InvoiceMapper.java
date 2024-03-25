@@ -10,9 +10,9 @@ public class InvoiceMapper {
     public static InvoiceModel mapInvoiceEntityToInvoiceModel(Invoice invoice) {
         InvoiceModel invoiceModel = new InvoiceModel();
         invoiceModel.setId(invoice.getId());
+        invoiceModel.setGenerationDate(invoice.getGenerationDate());
         invoiceModel.setPaymentDate(invoice.getPaymentDate());
         invoiceModel.setPaymentMethod(invoice.getPaymentMethod());
-        invoiceModel.setGenerationDate(invoice.getGenerationDate());
         return invoiceModel;
     }
 
