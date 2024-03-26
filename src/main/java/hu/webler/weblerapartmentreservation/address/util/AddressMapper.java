@@ -5,6 +5,8 @@ import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.address.model.AddressModel;
 import hu.webler.weblerapartmentreservation.address.model.AddressUpdateModel;
 
+import java.util.Optional;
+
 public class AddressMapper {
 
     public static AddressModel mapAddressEntityToAddressModel(Address address) {
@@ -26,21 +28,11 @@ public class AddressMapper {
         return address;
     }
 
-    public static Address mapAddressUpdateModelToAddressEntity(AddressUpdateModel addressUpdateModel) {
-        Address address = new Address();
-        if (addressUpdateModel.getCountry() != null) {
-            address.setCountry(addressUpdateModel.getCountry());
-        }
-        if (addressUpdateModel.getPostalCode() != null) {
-            address.setPostalCode(addressUpdateModel.getPostalCode());
-        }
-        if (addressUpdateModel.getCity() != null) {
-            address.setCity(addressUpdateModel.getCity());
-        }
-        if (addressUpdateModel.getAddressLine() != null) {
-            address.setAddressLine(addressUpdateModel.getAddressLine());
-        }
-        return address;
+    public static void mapAddressUpdateModelToAddressEntity(Address address, AddressUpdateModel addressUpdateModel) {
+        Optional.ofNullable(addressUpdateModel.getCountry()).ifPresent(address::setCountry);
+        Optional.ofNullable(addressUpdateModel.getPostalCode()).ifPresent(address::setPostalCode);
+        Optional.ofNullable(addressUpdateModel.getCity()).ifPresent(address::setCity);
+        Optional.ofNullable(addressUpdateModel.getAddressLine()).ifPresent(address::setAddressLine);
     }
 
     private AddressMapper(){
