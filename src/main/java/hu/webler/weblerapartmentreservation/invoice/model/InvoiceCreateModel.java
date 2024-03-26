@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InvoiceCreateModel {
 
-    private LocalDateTime generationDate;
+    private LocalDateTime generationDate = LocalDateTime.now();
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;
 }
