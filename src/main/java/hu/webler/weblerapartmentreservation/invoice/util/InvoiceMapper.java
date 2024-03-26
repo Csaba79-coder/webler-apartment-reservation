@@ -25,8 +25,6 @@ public class InvoiceMapper {
         invoice.setApartment(invoiceCreateModel.getApartment());
         invoice.setUser(invoiceCreateModel.getUser());
         invoice.setAddress(invoiceCreateModel.getAddress());
-        invoice.setPaymentDate(invoiceCreateModel.getPaymentDate());
-        invoice.setPaymentMethod(invoiceCreateModel.getPaymentMethod());
         return invoice;
     }
 

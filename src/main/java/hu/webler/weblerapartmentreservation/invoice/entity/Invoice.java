@@ -33,8 +33,8 @@ public class Invoice {
     private Address address;
 
     @Enumerated(value = EnumType.STRING)
-    private PaymentMethod paymentMethod;
+    private PaymentMethod paymentMethod = PaymentMethod.CARD;
 
     @Enumerated(value = EnumType.STRING)
-    private PaymentDate paymentDate;
+    private PaymentDate paymentDate = PaymentDate.NOW;
 }
