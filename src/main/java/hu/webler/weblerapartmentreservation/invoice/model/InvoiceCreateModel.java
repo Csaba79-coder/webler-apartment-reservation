@@ -1,7 +1,10 @@
 package hu.webler.weblerapartmentreservation.invoice.model;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.invoice.value.PaymentDate;
 import hu.webler.weblerapartmentreservation.invoice.value.PaymentMethod;
+import hu.webler.weblerapartmentreservation.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +19,9 @@ import java.time.LocalDateTime;
 public class InvoiceCreateModel {
 
     private LocalDateTime generationDate = LocalDateTime.now();
+    private Apartment apartment;
+    private User user;
+    private Address address;
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;
 }
