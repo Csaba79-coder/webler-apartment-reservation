@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="createInvoiceTable" author="futopeter97">
+        <createTable tableName="invoice">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="generation_date" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_method" type="ENUM('CASH', 'CARD')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_date" type="ENUM('NOW', 'AT_HOTEL')">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
