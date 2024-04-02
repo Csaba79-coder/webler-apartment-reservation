@@ -28,8 +28,8 @@ public class Invoice {
     @CreationTimestamp
     private LocalDateTime generationDate;
 
-    private Apartment apartment;
-    private User user;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @Enumerated(value = EnumType.STRING)

@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.user.entity;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,9 @@ public class User {
     private String lastName;
     private String email;
     private String phoneNumber;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "address_id")
+    private Address address;
 }
