@@ -20,8 +20,6 @@ public class InvoiceModel {
 
     private Long id;
     private LocalDateTime generationDate;
-    private Apartment apartment;
-    private User user;
     private Address address;
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;

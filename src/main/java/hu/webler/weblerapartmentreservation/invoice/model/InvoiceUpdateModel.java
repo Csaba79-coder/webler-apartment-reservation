@@ -19,8 +19,6 @@ import java.time.LocalDateTime;
 public class InvoiceUpdateModel {
 
     private LocalDateTime generationDate;
-    private Apartment apartment;
-    private User user;
     private Address address;
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;
