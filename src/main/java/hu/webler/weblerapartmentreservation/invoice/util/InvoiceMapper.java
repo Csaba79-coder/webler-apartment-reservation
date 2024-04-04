@@ -11,8 +11,6 @@ public class InvoiceMapper {
         InvoiceModel invoiceModel = new InvoiceModel();
         invoiceModel.setId(invoice.getId());
         invoiceModel.setGenerationDate(invoice.getGenerationDate());
-        invoiceModel.setApartment(invoice.getApartment());
-        invoiceModel.setUser(invoice.getUser());
         invoiceModel.setAddress(invoice.getAddress());
         invoiceModel.setPaymentDate(invoice.getPaymentDate());
         invoiceModel.setPaymentMethod(invoice.getPaymentMethod());
@@ -22,8 +20,6 @@ public class InvoiceMapper {
     public static Invoice mapInvoiceCreateModelToInvoiceEntity(InvoiceCreateModel invoiceCreateModel) {
         Invoice invoice = new Invoice();
         invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
-        invoice.setApartment(invoiceCreateModel.getApartment());
-        invoice.setUser(invoiceCreateModel.getUser());
         invoice.setAddress(invoiceCreateModel.getAddress());
         return invoice;
     }
@@ -32,12 +28,6 @@ public class InvoiceMapper {
         Invoice invoice = new Invoice();
         if (invoiceUpdateModel.getGenerationDate() != null) {
             invoice.setGenerationDate(invoiceUpdateModel.getGenerationDate());
-        }
-        if (invoiceUpdateModel.getApartment() != null) {
-            invoice.setApartment(invoiceUpdateModel.getApartment());
-        }
-        if (invoiceUpdateModel.getUser() != null) {
-            invoice.setUser(invoiceUpdateModel.getUser());
         }
         if (invoiceUpdateModel.getAddress() != null) {
             invoice.setAddress(invoiceUpdateModel.getAddress());
