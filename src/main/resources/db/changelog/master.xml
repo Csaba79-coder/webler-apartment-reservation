@@ -7,10 +7,9 @@
 
     <!-- Include the changelog-1.0-database.xml file without classpath: -->
     <include file="changelog-1.0-database.xml" relativeToChangelogFile="true"/>
+    <include file="changelog-4.0-address.xml" relativeToChangelogFile="true"/>
     <include file="changelog-2.0-apartment.xml" relativeToChangelogFile="true"/>
     <include file="changelog-3.0-reservation_user.xml" relativeToChangelogFile="true"/>
-    <include file="changelog-4.0-address.xml" relativeToChangelogFile="true"/>
     <include file="changelog-5.0-invoice.xml" relativeToChangelogFile="true"/>
-    <include file="changelog-6.0-relationships.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

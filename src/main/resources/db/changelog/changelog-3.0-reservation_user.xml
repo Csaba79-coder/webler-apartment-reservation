@@ -24,4 +24,10 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="addUserRelationshipToAddress" author="futopeter97">
+        <addForeignKeyConstraint baseTableName="reservation_user" baseColumnNames="id"
+                                 constraintName="FK_user_address"
+                                 referencedTableName="address" referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>
