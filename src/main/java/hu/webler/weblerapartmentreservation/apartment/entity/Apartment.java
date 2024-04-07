@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.apartment.entity;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.apartment.value.ApartmentStatus;
 import hu.webler.weblerapartmentreservation.apartment.value.ApartmentType;
 import jakarta.persistence.*;
@@ -33,4 +34,8 @@ public class Apartment {
     @Enumerated(value = EnumType.STRING)
     private ApartmentStatus apartmentStatus = ApartmentStatus.AVAILABLE;
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 }
