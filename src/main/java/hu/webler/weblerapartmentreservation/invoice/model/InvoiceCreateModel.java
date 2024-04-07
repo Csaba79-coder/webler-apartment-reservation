@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InvoiceCreateModel {
 
+    @CreationTimestamp
     private LocalDateTime generationDate = LocalDateTime.now();
     private Address address;
     private PaymentMethod paymentMethod;
