@@ -5,6 +5,8 @@ import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;
 import hu.webler.weblerapartmentreservation.user.model.UserUpdateModel;
 
+import java.util.Optional;
+
 public class UserMapper {
 
     public static UserModel mapUserEntityToUserModel(User user) {
@@ -27,21 +29,11 @@ public class UserMapper {
         return user;
     }
 
-    public static User mapUserUpdateModelToUserEntity(UserUpdateModel userUpdateModel) {
-        User user = new User();
-        if (userUpdateModel.getFirstName() != null) {
-            user.setFirstName(userUpdateModel.getFirstName());
-        }
-        if (userUpdateModel.getLastName() != null) {
-            user.setLastName(userUpdateModel.getLastName());
-        }
-        if (userUpdateModel.getEmail() != null) {
-            user.setEmail(userUpdateModel.getEmail());
-        }
-        if (userUpdateModel.getPhoneNumber() != null) {
-            user.setPhoneNumber(userUpdateModel.getPhoneNumber());
-        }
-        return user;
+    public static void mapUserUpdateModelToUserEntity(User user, UserUpdateModel userUpdateModel) {
+        Optional.ofNullable(userUpdateModel.getFirstName()).ifPresent(user::setFirstName);
+        Optional.ofNullable(userUpdateModel.getLastName()).ifPresent(user::setLastName);
+        Optional.ofNullable(userUpdateModel.getEmail()).ifPresent(user::setEmail);
+        Optional.ofNullable(userUpdateModel.getPhoneNumber()).ifPresent(user::setPhoneNumber);
     }
 
     private UserMapper() {
