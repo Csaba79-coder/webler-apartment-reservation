@@ -19,7 +19,7 @@ public class InvoiceCreateModel {
 
     @CreationTimestamp
     private LocalDateTime generationDate = LocalDateTime.now();
-    private Address address;
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;
+    private Address address;
 }
