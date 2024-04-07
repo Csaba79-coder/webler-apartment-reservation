@@ -28,13 +28,13 @@ public class Invoice {
     @CreationTimestamp
     private LocalDateTime generationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
-
     @Enumerated(value = EnumType.STRING)
     private PaymentMethod paymentMethod = PaymentMethod.CARD;
 
     @Enumerated(value = EnumType.STRING)
     private PaymentDate paymentDate = PaymentDate.NOW;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 }
