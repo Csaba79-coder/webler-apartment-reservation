@@ -3,6 +3,7 @@ package hu.webler.weblerapartmentreservation.address.service;
 import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.address.model.AddressModel;
+import hu.webler.weblerapartmentreservation.address.model.AddressUpdateModel;
 import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.address.util.AddressMapper;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,20 @@ public class AddressService {
     public AddressModel createAddress(AddressCreateModel addressCreateModel) {
         return AddressMapper.mapAddressEntityToAddressModel(addressRepository
                 .save(AddressMapper.mapAddressCreateModelToAddressEntity(addressCreateModel)));
+    }
+
+    public void deleteAddress(Long id) {
+        findAddressById(id);
+        addressRepository.deleteById(id);
+    }
+
+    public AddressModel updateAddress(Long id, AddressUpdateModel addressUpdateModel) {
+        Address address = findAddressById(id);
+        if (address != null) {
+            AddressMapper.mapAddressUpdateModelToAddressEntity(address, addressUpdateModel);
+            address = addressRepository.save(address);
+            return AddressMapper.mapAddressEntityToAddressModel(address);
+        }
+        return null;
     }
 }
