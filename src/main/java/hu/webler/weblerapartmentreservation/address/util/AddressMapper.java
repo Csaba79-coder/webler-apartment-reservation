@@ -15,7 +15,7 @@ public class AddressMapper {
         addressModel.setCountry(address.getCountry());
         addressModel.setPostalCode(address.getPostalCode());
         addressModel.setCity(address.getCity());
-        addressModel.setAddressLine(address.getAddressLine());
+        addressModel.setLine(address.getLine());
         return addressModel;
     }
 
@@ -24,7 +24,7 @@ public class AddressMapper {
         address.setCountry(addressCreateModel.getCountry());
         address.setPostalCode(addressCreateModel.getPostalCode());
         address.setCity(addressCreateModel.getCity());
-        address.setAddressLine(addressCreateModel.getAddressLine());
+        address.setLine(addressCreateModel.getLine());
         return address;
     }
 
@@ -32,7 +32,7 @@ public class AddressMapper {
         Optional.ofNullable(addressUpdateModel.getCountry()).ifPresent(address::setCountry);
         Optional.ofNullable(addressUpdateModel.getPostalCode()).ifPresent(address::setPostalCode);
         Optional.ofNullable(addressUpdateModel.getCity()).ifPresent(address::setCity);
-        Optional.ofNullable(addressUpdateModel.getAddressLine()).ifPresent(address::setAddressLine);
+        Optional.ofNullable(addressUpdateModel.getLine()).ifPresent(address::setLine);
     }
 
     private AddressMapper(){
