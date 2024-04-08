@@ -1,6 +1,7 @@
 package hu.webler.weblerapartmentreservation.address.service;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.address.model.AddressModel;
 import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.address.util.AddressMapper;
@@ -32,5 +33,10 @@ public class AddressService {
                     log.info(message);
                     return new RuntimeException(message);
                 });
+    }
+
+    public AddressModel createAddress(AddressCreateModel addressCreateModel) {
+        return AddressMapper.mapAddressEntityToAddressModel(addressRepository
+                .save(AddressMapper.mapAddressCreateModelToAddressEntity(addressCreateModel)));
     }
 }
