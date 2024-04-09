@@ -26,6 +26,6 @@ public class User {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "id")
     private Address address;
 }
