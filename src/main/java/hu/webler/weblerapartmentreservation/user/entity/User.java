@@ -25,7 +25,6 @@ public class User {
     private String phoneNumber;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "id")
     private Address address;
 }

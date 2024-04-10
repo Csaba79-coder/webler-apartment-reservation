@@ -35,6 +35,5 @@ public class Address {
     private List<Apartment> apartments = new ArrayList<>();
 
     @OneToOne(mappedBy = "address")
-    @PrimaryKeyJoinColumn
     private User user;
 }
