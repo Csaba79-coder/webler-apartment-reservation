@@ -19,18 +19,14 @@
             <column name="payment_date" type="ENUM('NOW', 'AT_HOTEL')">
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="addInvoiceRelationshipToAddress" author="futopeter97">
-        <addColumn tableName="invoice">
             <column name="address_id" type="BIGINT">
                 <constraints nullable="true"/>
             </column>
-        </addColumn>
+        </createTable>
+
         <addForeignKeyConstraint baseTableName="invoice" baseColumnNames="address_id"
                                  constraintName="FK_invoice_address"
-                                 referencedTableName="address" referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
+                                 referencedTableName="address" referencedColumnNames="id"/>
     </changeSet>
+
 </databaseChangeLog>

@@ -28,9 +28,9 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.findUserById(id));
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<UserModel> createUser(@RequestBody UserCreateModel userCreateModel) {
-        return ResponseEntity.status(200).body(userService.createUser(userCreateModel));
+    @PostMapping("/users/address/{addressId}")
+    public ResponseEntity<UserModel> createUser(@RequestBody UserCreateModel userCreateModel, @PathVariable(value = "addressId") Long addressId) {
+        return ResponseEntity.status(200).body(userService.createUser(userCreateModel, addressId));
     }
 
     @DeleteMapping("/users/{id}")

@@ -35,6 +35,6 @@ public class Invoice {
     private PaymentDate paymentDate = PaymentDate.NOW;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 }

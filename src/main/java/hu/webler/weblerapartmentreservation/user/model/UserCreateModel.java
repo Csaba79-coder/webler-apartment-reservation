@@ -1,5 +1,7 @@
 package hu.webler.weblerapartmentreservation.user.model;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +17,5 @@ public class UserCreateModel {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private Long addressId;
 }
