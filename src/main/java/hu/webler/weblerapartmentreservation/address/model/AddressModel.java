@@ -15,5 +15,5 @@ public class AddressModel {
     private String country;
     private String postalCode;
     private String city;
-    private String addressLine;
+    private String line;
 }
