@@ -28,10 +28,9 @@ public class InvoiceController {
         return ResponseEntity.status(200).body(invoiceService.findInvoiceById(id));
     }
 
-    @PostMapping("/invoices/address/{addressId}")
-    public ResponseEntity<InvoiceModel> createInvoice(@RequestBody InvoiceCreateModel invoiceCreateModel,
-                                                      @PathVariable(name = "addressId") Long id) {
-        return ResponseEntity.status(200).body(invoiceService.createInvoice(invoiceCreateModel, id));
+    @PostMapping("/invoices")
+    public ResponseEntity<InvoiceModel> createInvoice(@RequestBody InvoiceCreateModel invoiceCreateModel) {
+        return ResponseEntity.status(200).body(invoiceService.createInvoice(invoiceCreateModel));
     }
 
     @DeleteMapping("/invoices/{id}")

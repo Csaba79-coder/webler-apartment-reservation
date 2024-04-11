@@ -1,6 +1,5 @@
 package hu.webler.weblerapartmentreservation.apartment.service;
 
-import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentCreateModel;
@@ -11,7 +10,6 @@ import hu.webler.weblerapartmentreservation.apartment.util.ApartmentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,9 +38,10 @@ public class ApartmentService {
                         });
     }
 
-    public ApartmentModel createApartment(ApartmentCreateModel apartmentCreateModel, Long addressId) {
-        Address address = addressService.findAddressById(addressId);
-        return ApartmentMapper.mapApartmentEntityToApartmentModel(apartmentRepository.save(ApartmentMapper.mapApartmentCreateModelToApartmentEntity(apartmentCreateModel, address)));
+    public ApartmentModel createApartment(ApartmentCreateModel apartmentCreateModel) {
+        // TODO logic, if address is in database set that, if not, save first a new address, than save!
+        // similar logic as in User ...
+        return ApartmentMapper.mapApartmentEntityToApartmentModel(apartmentRepository.save(ApartmentMapper.mapApartmentCreateModelToApartmentEntity(apartmentCreateModel)));
     }
 
     public void deleteApartment(Long id) {

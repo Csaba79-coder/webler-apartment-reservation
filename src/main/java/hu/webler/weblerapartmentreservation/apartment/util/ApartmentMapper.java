@@ -1,6 +1,5 @@
 package hu.webler.weblerapartmentreservation.apartment.util;
 
-import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentCreateModel;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentModel;
@@ -24,7 +23,7 @@ public class ApartmentMapper {
         return apartmentModel;
     }
 
-    public static Apartment mapApartmentCreateModelToApartmentEntity(ApartmentCreateModel apartmentCreateModel, Address address) {
+    public static Apartment mapApartmentCreateModelToApartmentEntity(ApartmentCreateModel apartmentCreateModel) {
         Apartment apartment = new Apartment();
         apartment.setFloorNumber(apartmentCreateModel.getFloorNumber());
         apartment.setRoomNumber(apartmentCreateModel.getRoomNumber());
@@ -33,7 +32,7 @@ public class ApartmentMapper {
         apartment.setApartmentType(apartmentCreateModel.getApartmentType());
         apartment.setDescription(apartmentCreateModel.getDescription());
         apartment.setPrice(apartmentCreateModel.getPrice());
-        apartment.setAddress(address);
+        apartment.setAddress(apartmentCreateModel.getAddress());
         return apartment;
     }
 

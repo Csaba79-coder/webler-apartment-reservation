@@ -1,7 +1,7 @@
 package hu.webler.weblerapartmentreservation.invoice.model;
 
-import hu.webler.weblerapartmentreservation.invoice.value.PaymentDate;
-import hu.webler.weblerapartmentreservation.invoice.value.PaymentMethod;
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.invoice.value.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class InvoiceCreateModel {
 
-    private PaymentMethod paymentMethod;
-    private Long addressId;
+    private PaymentType paymentType;
+    private Address address;
 }

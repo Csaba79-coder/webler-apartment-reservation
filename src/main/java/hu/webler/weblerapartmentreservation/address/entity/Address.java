@@ -1,16 +1,10 @@
 package hu.webler.weblerapartmentreservation.address.entity;
 
-import hu.webler.weblerapartmentreservation.apartment.entity.Apartment;
-import hu.webler.weblerapartmentreservation.invoice.entity.Invoice;
-import hu.webler.weblerapartmentreservation.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

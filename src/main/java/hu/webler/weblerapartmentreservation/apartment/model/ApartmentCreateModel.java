@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.apartment.model;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.apartment.value.ApartmentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,5 @@ public class ApartmentCreateModel {
     private ApartmentType apartmentType;
     private String description;
     private BigDecimal price;
-    private Long addressId;
+    private Address address;
 }
