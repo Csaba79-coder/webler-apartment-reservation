@@ -1,5 +1,7 @@
 package hu.webler.weblerapartmentreservation.invoice.service;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.invoice.entity.Invoice;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceCreateModel;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceModel;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
+    private final AddressService addressService;
 
     public List<InvoiceModel> findAllInvoices() {
         return invoiceRepository.findAll()
@@ -36,9 +39,10 @@ public class InvoiceService {
                 });
     }
 
-    public InvoiceModel createInvoice(InvoiceCreateModel invoiceCreateModel) {
+    public InvoiceModel createInvoice(InvoiceCreateModel invoiceCreateModel, Long id) {
+        Address address = addressService.findAddressById(id);
         return InvoiceMapper.mapInvoiceEntityToInvoiceModel(invoiceRepository
-                .save(InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel)));
+                .save(InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel, address)));
     }
 
     public void deleteInvoice(Long id) {
