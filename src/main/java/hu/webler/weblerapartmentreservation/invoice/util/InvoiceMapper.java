@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.invoice.util;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.invoice.entity.Invoice;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceCreateModel;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceModel;
@@ -17,10 +18,12 @@ public class InvoiceMapper {
         return invoiceModel;
     }
 
-    public static Invoice mapInvoiceCreateModelToInvoiceEntity(InvoiceCreateModel invoiceCreateModel) {
+    public static Invoice mapInvoiceCreateModelToInvoiceEntity(InvoiceCreateModel invoiceCreateModel, Address address) {
         Invoice invoice = new Invoice();
         invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
-        invoice.setAddress(invoiceCreateModel.getAddress());
+        invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
+        invoice.setPaymentDate(invoiceCreateModel.getPaymentDate());
+        invoice.setAddress(address);
         return invoice;
     }
 
