@@ -1,7 +1,6 @@
 package hu.webler.weblerapartmentreservation.user.service;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
-import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
