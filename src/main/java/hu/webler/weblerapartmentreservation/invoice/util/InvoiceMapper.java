@@ -20,9 +20,7 @@ public class InvoiceMapper {
 
     public static Invoice mapInvoiceCreateModelToInvoiceEntity(InvoiceCreateModel invoiceCreateModel, Address address) {
         Invoice invoice = new Invoice();
-        invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
-        invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
-        invoice.setPaymentDate(invoiceCreateModel.getPaymentDate());
+        invoice.setPaymentMethod(invoiceCreateModel.getPaymentMethod());
         invoice.setAddress(address);
         return invoice;
     }
