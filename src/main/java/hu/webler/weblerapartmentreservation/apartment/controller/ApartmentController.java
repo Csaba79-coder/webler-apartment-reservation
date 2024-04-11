@@ -19,7 +19,7 @@ public class ApartmentController {
     private final ApartmentService apartmentService;
 
     @GetMapping("/apartments")
-    public ResponseEntity<List<ApartmentModel>> renderAllApartments() {
+    public ResponseEntity<List<ApartmentModel>> renderAllApartments(Long id) {
         return ResponseEntity.status(200).body(apartmentService.findAllApartments());
     }
 
@@ -28,9 +28,9 @@ public class ApartmentController {
         return ResponseEntity.status(200).body(apartmentService.findApartmentById(id));
     }
 
-    @PostMapping("/apartments")
-    public ResponseEntity<ApartmentModel> createApartment(@RequestBody ApartmentCreateModel apartmentCreateModel) {
-        return ResponseEntity.status(200).body(apartmentService.createApartment(apartmentCreateModel));
+    @PostMapping("/apartments/address/{addressId}")
+    public ResponseEntity<ApartmentModel> createApartment(@RequestBody ApartmentCreateModel apartmentCreateModel, @PathVariable(name = "addressId") Long id) {
+        return ResponseEntity.status(200).body(apartmentService.createApartment(apartmentCreateModel, id));
     }
 
     @DeleteMapping("/apartments/{id}")
