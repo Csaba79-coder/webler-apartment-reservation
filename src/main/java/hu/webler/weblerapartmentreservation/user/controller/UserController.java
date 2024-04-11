@@ -1,6 +1,5 @@
 package hu.webler.weblerapartmentreservation.user.controller;
 
-import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;
@@ -29,9 +28,9 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.findUserById(id));
     }
 
-    @PostMapping("/users/address/{addressId}")
-    public ResponseEntity<UserModel> createUser(@RequestBody UserCreateModel userCreateModel,@PathVariable(value = "addressId") Long addressId) {
-        return ResponseEntity.status(200).body(userService.createUser(userCreateModel, addressId));
+    @PostMapping("/users")
+    public ResponseEntity<UserModel> createUser(@RequestBody UserCreateModel userCreateModel) {
+        return ResponseEntity.status(200).body(userService.createUser(userCreateModel));
     }
 
     @DeleteMapping("/users/{id}")

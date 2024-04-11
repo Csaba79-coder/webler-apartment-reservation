@@ -1,6 +1,6 @@
 package hu.webler.weblerapartmentreservation.invoice.value;
 
-public enum PaymentMethod {
+public enum PaymentType {
 
-    CASH, CARD, TRANSFER
+    CASH, CARD, AT_HOTEL, TRANSFER
 }

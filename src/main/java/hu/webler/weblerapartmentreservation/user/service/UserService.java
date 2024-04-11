@@ -1,7 +1,11 @@
 package hu.webler.weblerapartmentreservation.user.service;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
+import hu.webler.weblerapartmentreservation.address.model.AddressModel;
+import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.address.service.AddressService;
+import hu.webler.weblerapartmentreservation.address.util.AddressMapper;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;
@@ -22,6 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final AddressService addressService;
+    private final AddressRepository addressRepository;
 
     public List<UserModel> findAllUsers() {
         return userRepository.findAll()
@@ -39,9 +44,23 @@ public class UserService {
                 });
     }
 
-    public UserModel createUser(UserCreateModel userCreateModel, Long addressId) {
-        Address address = addressService.findAddressById(addressId);
-        return UserMapper.mapUserEntityToUserModel(userRepository.save(UserMapper.mapUserCreateModelToUserEntity(userCreateModel, address)));
+    public UserModel createUser(UserCreateModel userCreateModel) {
+        // TODO same logic as the other places!!!
+        Address addressFound = addressService.findAddressById(userCreateModel.getAddress().getId());
+        if (addressFound != null) {
+            userCreateModel.setAddress(addressFound);
+        } else {
+            // save address first!
+            // If the address is not found, save it first
+            Address address = new Address();
+            address.setCity(userCreateModel.getAddress().getCity());
+            address.setCountry(userCreateModel.getAddress().getCountry());
+            address.setPostalCode(userCreateModel.getAddress().getPostalCode());
+            address.setLine(userCreateModel.getAddress().getLine());
+            Address addressToSave = addressRepository.save(address);
+            userCreateModel.setAddress(addressToSave);
+        }
+        return UserMapper.mapUserEntityToUserModel(userRepository.save(UserMapper.mapUserCreateModelToUserEntity(userCreateModel)));
     }
 
     public void deleteUser(Long id) {

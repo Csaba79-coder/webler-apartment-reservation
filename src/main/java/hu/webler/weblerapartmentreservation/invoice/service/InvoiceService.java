@@ -39,10 +39,10 @@ public class InvoiceService {
                 });
     }
 
-    public InvoiceModel createInvoice(InvoiceCreateModel invoiceCreateModel, Long id) {
-        Address address = addressService.findAddressById(id);
-        return InvoiceMapper.mapInvoiceEntityToInvoiceModel(invoiceRepository
-                .save(InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel, address)));
+    public InvoiceModel createInvoice(InvoiceCreateModel invoiceCreateModel) {
+        return InvoiceMapper.mapInvoiceEntityToInvoiceModel(
+                invoiceRepository.save(
+                        InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel)));
     }
 
     public void deleteInvoice(Long id) {

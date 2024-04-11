@@ -13,10 +13,10 @@
             <column name="generation_date" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="payment_method" type="ENUM('CASH', 'CARD')">
+            <column name="payment_date" type="DATE">
                 <constraints nullable="false"/>
             </column>
-            <column name="payment_date" type="ENUM('NOW', 'AT_HOTEL')">
+            <column name="payment_type" type="ENUM('CASH', 'CARD', 'AT_HOTEL', 'TRANSFER')">
                 <constraints nullable="false"/>
             </column>
             <column name="address_id" type="BIGINT">
