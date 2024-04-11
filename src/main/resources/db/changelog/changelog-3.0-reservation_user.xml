@@ -22,11 +22,12 @@
             <column name="phone_number" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="address_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
-    </changeSet>
 
-    <changeSet id="addUserRelationshipToAddress" author="futopeter97">
-        <addForeignKeyConstraint baseTableName="reservation_user" baseColumnNames="id"
+        <addForeignKeyConstraint baseTableName="reservation_user" baseColumnNames="address_id"
                                  constraintName="FK_user_address"
                                  referencedTableName="address" referencedColumnNames="id"/>
     </changeSet>

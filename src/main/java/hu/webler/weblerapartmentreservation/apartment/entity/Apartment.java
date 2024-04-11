@@ -36,6 +36,6 @@ public class Apartment {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 }

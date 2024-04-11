@@ -2,5 +2,5 @@ package hu.webler.weblerapartmentreservation.invoice.value;
 
 public enum PaymentDate {
 
-    NOW, AT_HOTEL
+    RIGHT_AWAY, AT_HOTEL, MONEY_TRANSFER
 }

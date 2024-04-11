@@ -33,18 +33,21 @@
             <column name="price" type="Decimal">
                 <constraints nullable="false"/>
             </column>
+            <column name="address_id" type="BIGINT">
+                <constraints foreignKeyName="" nullable="true"/>
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="addApartmentRelationshipToAddress" author="futopeter97">
-        <addColumn tableName="apartment">
-            <column name="address_id" type="BIGINT">
-                <constraints nullable="true"/>
-            </column>
-        </addColumn>
-        <addForeignKeyConstraint baseTableName="apartment" baseColumnNames="address_id"
-                                 constraintName="FK_apartment_address"
-                                 referencedTableName="address" referencedColumnNames="id"
-                                 onDelete="CASCADE"/>
+    <changeSet id="addForeignKeyConstraintToApartment" author="Csaba79-coder">
+        <addForeignKeyConstraint
+                baseTableName="apartment"
+                baseColumnNames="address_id"
+                constraintName="FK_apartment_address"
+                referencedTableName="address"
+                referencedColumnNames="id"
+                onDelete="CASCADE"
+                onUpdate="CASCADE"
+        />
     </changeSet>
 </databaseChangeLog>

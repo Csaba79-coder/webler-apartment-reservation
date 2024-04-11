@@ -1,5 +1,7 @@
 package hu.webler.weblerapartmentreservation.apartment.service;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentCreateModel;
 import hu.webler.weblerapartmentreservation.apartment.model.ApartmentModel;
@@ -9,6 +11,7 @@ import hu.webler.weblerapartmentreservation.apartment.util.ApartmentMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class ApartmentService {
 
     private final ApartmentRepository apartmentRepository;
+    private final AddressService addressService;
 
     public List<ApartmentModel> findAllApartments() {
         return apartmentRepository.findAll()
@@ -36,8 +40,9 @@ public class ApartmentService {
                         });
     }
 
-    public ApartmentModel createApartment(ApartmentCreateModel apartmentCreateModel) {
-        return ApartmentMapper.mapApartmentEntityToApartmentModel(apartmentRepository.save(ApartmentMapper.mapApartmentCreateModelToApartmentEntity(apartmentCreateModel)));
+    public ApartmentModel createApartment(ApartmentCreateModel apartmentCreateModel, Long addressId) {
+        Address address = addressService.findAddressById(addressId);
+        return ApartmentMapper.mapApartmentEntityToApartmentModel(apartmentRepository.save(ApartmentMapper.mapApartmentCreateModelToApartmentEntity(apartmentCreateModel, address)));
     }
 
     public void deleteApartment(Long id) {

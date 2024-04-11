@@ -24,7 +24,7 @@ public class User {
     private String email;
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "id")
+    @ManyToOne
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 }

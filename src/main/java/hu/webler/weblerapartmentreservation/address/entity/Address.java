@@ -27,13 +27,4 @@ public class Address {
     private String postalCode;
     private String city;
     private String line;
-
-    @OneToMany(mappedBy = "address")
-    private List<Invoice> invoices = new ArrayList<>();
-
-    @OneToMany(mappedBy = "address")
-    private List<Apartment> apartments = new ArrayList<>();
-
-    @OneToOne(mappedBy = "address")
-    private User user;
 }

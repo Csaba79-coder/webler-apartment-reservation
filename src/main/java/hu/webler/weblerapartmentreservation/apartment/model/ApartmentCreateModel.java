@@ -21,4 +21,5 @@ public class ApartmentCreateModel {
     private ApartmentType apartmentType;
     private String description;
     private BigDecimal price;
+    private Long addressId;
 }
