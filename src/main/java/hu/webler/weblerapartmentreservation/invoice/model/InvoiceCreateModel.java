@@ -21,5 +21,5 @@ public class InvoiceCreateModel {
     private LocalDateTime generationDate = LocalDateTime.now();
     private PaymentMethod paymentMethod;
     private PaymentDate paymentDate;
-    private Address address;
+    private Long addressId;
 }
