@@ -1,5 +1,8 @@
 package hu.webler.weblerapartmentreservation.user.service;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
+import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
+import hu.webler.weblerapartmentreservation.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AddressService addressService;
 
     public List<UserModel> findAllUsers() {
         return userRepository.findAll()
@@ -36,8 +40,9 @@ public class UserService {
                 });
     }
 
-    public UserModel createUser(UserCreateModel userCreateModel) {
-        return UserMapper.mapUserEntityToUserModel(userRepository.save(UserMapper.mapUserCreateModelToUserEntity(userCreateModel)));
+    public UserModel createUser(UserCreateModel userCreateModel, Long addressId) {
+        Address address = addressService.findAddressById(addressId);
+        return UserMapper.mapUserEntityToUserModel(userRepository.save(UserMapper.mapUserCreateModelToUserEntity(userCreateModel, address)));
     }
 
     public void deleteUser(Long id) {
