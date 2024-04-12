@@ -23,7 +23,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="address_id" type="BIGINT">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
 

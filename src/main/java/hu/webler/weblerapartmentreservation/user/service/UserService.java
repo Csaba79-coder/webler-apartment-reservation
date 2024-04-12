@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,22 +46,58 @@ public class UserService {
     }
 
     public UserModel createUser(UserCreateModel userCreateModel) {
-        // TODO same logic as the other places!!!
-        Address addressFound = addressService.findAddressById(userCreateModel.getAddress().getId());
-        if (addressFound != null) {
-            userCreateModel.setAddress(addressFound);
+        Address addressToSave = null;
+        // Check if address details are provided
+        if (userCreateModel.getAddress() != null) {
+            // Attempt to find an existing address matching the provided details
+            Optional<Address> optionalAddress = addressRepository.findAddressByCountryAndPostalCodeAndCityAndLine(
+                    userCreateModel.getAddress().getCountry(),
+                    userCreateModel.getAddress().getPostalCode(),
+                    userCreateModel.getAddress().getCity(),
+                    userCreateModel.getAddress().getLine());
+
+            if (optionalAddress.isPresent()) {
+                // If found, use the existing address
+                addressToSave = optionalAddress.get();
+            } else {
+                // If not found, create a new address using the provided details
+                AddressCreateModel model = new AddressCreateModel();
+                model.setCountry(userCreateModel.getAddress().getCountry());
+                model.setPostalCode(userCreateModel.getAddress().getPostalCode());
+                model.setCity(userCreateModel.getAddress().getCity());
+                model.setLine(userCreateModel.getAddress().getLine()); // Ensure line is not null
+                addressToSave = createAddress(model);
+                // Remove this line since the address is already saved inside createAddress
+                // addressRepository.save(addressToSave);
+            }
         } else {
-            // save address first!
-            // If the address is not found, save it first
-            Address address = new Address();
-            address.setCity(userCreateModel.getAddress().getCity());
-            address.setCountry(userCreateModel.getAddress().getCountry());
-            address.setPostalCode(userCreateModel.getAddress().getPostalCode());
-            address.setLine(userCreateModel.getAddress().getLine());
-            Address addressToSave = addressRepository.save(address);
-            userCreateModel.setAddress(addressToSave);
+            // Throw an exception or return an error indicating that address details are required
+            throw new IllegalArgumentException("Address details are required");
         }
+
+        // Set the address to the userCreateModel
+        userCreateModel.setAddress(addressToSave);
+
+        // Save the user entity and return the mapped user model
         return UserMapper.mapUserEntityToUserModel(userRepository.save(UserMapper.mapUserCreateModelToUserEntity(userCreateModel)));
+    }
+
+    private Address createAddress(AddressCreateModel addressCreateModel) {
+        Address address = new Address();
+        address.setCountry(addressCreateModel.getCountry());
+        address.setPostalCode(addressCreateModel.getPostalCode());
+        address.setCity(addressCreateModel.getCity());
+
+        // Check if the line is not null before setting it
+        if (addressCreateModel.getLine() != null) {
+            address.setLine(addressCreateModel.getLine());
+        } else {
+            // You may choose to throw an exception or set a default value for line
+            // For now, let's set it to an empty string
+            address.setLine("");
+        }
+
+        return addressRepository.save(address);
     }
 
     public void deleteUser(Long id) {

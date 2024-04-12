@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
     Optional<Address> findAddressById(Long id);
+    Optional<Address> findAddressByCountryAndPostalCodeAndCityAndLine(String country, String postalCode, String city, String line);
 }

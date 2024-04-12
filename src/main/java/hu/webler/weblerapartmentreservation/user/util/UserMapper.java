@@ -16,6 +16,7 @@ public class UserMapper {
         userModel.setLastName(user.getLastName());
         userModel.setEmail(user.getEmail());
         userModel.setPhoneNumber(user.getPhoneNumber());
+        userModel.setAddress(user.getAddress());
         return userModel;
     }
 
@@ -31,6 +32,7 @@ public class UserMapper {
     }
 
     public static void mapUserUpdateModelToUserEntity(User user, UserUpdateModel userUpdateModel) {
+        // TODO do not forget about address here!
         Optional.ofNullable(userUpdateModel.getFirstName()).ifPresent(user::setFirstName);
         Optional.ofNullable(userUpdateModel.getLastName()).ifPresent(user::setLastName);
         Optional.ofNullable(userUpdateModel.getEmail()).ifPresent(user::setEmail);
