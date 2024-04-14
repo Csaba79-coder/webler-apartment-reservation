@@ -2,10 +2,8 @@ package hu.webler.weblerapartmentreservation.user.service;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
-import hu.webler.weblerapartmentreservation.address.model.AddressModel;
 import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.address.service.AddressService;
-import hu.webler.weblerapartmentreservation.address.util.AddressMapper;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;
@@ -17,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,7 +40,7 @@ public class UserService {
                 .orElseThrow( () -> {
                     String message = String.format("User with id %d was not found", id);
                     log.info(message);
-                    return new RuntimeException(message);
+                    return new NoSuchElementException(message);
                 });
     }
 
