@@ -1,6 +1,7 @@
 package hu.webler.weblerapartmentreservation.invoice.model;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
+
 import hu.webler.weblerapartmentreservation.invoice.value.PaymentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
