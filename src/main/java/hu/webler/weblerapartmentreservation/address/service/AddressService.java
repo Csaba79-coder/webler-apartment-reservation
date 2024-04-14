@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class AddressService {
                 .orElseThrow(() -> {
                     String message = String.format("Address with id %d was not found", id);
                     log.info(message);
-                    return new RuntimeException(message);
+                    return new NoSuchElementException(message);
                 });
     }
 
