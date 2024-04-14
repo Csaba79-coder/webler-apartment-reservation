@@ -20,6 +20,7 @@ public class ApartmentMapper {
         apartmentModel.setDescription(apartment.getDescription());
         apartmentModel.setApartmentStatus(apartment.getApartmentStatus());
         apartmentModel.setPrice(apartment.getPrice());
+        apartmentModel.setAddress(apartment.getAddress());
         return apartmentModel;
     }
 

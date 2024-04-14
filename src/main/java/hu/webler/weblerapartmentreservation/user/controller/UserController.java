@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.user.controller;
 
+import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.user.entity.User;
 import hu.webler.weblerapartmentreservation.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.user.model.UserModel;

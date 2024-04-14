@@ -1,7 +1,8 @@
 package hu.webler.weblerapartmentreservation.invoice.service;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
-import hu.webler.weblerapartmentreservation.address.service.AddressService;
+import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
+import hu.webler.weblerapartmentreservation.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.invoice.entity.Invoice;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceCreateModel;
 import hu.webler.weblerapartmentreservation.invoice.model.InvoiceModel;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +24,7 @@ import java.util.stream.Collectors;
 public class InvoiceService {
 
     private final InvoiceRepository invoiceRepository;
-    private final AddressService addressService;
+    private final AddressRepository addressRepository;
 
     public List<InvoiceModel> findAllInvoices() {
         return invoiceRepository.findAll()
@@ -35,14 +38,48 @@ public class InvoiceService {
                 .orElseThrow(() -> {
                     String message = String.format("Invoice with id %d was not found", id);
                     log.info(message);
-                    return new RuntimeException(message);
+                    return new NoSuchElementException(message);
                 });
     }
 
     public InvoiceModel createInvoice(InvoiceCreateModel invoiceCreateModel) {
-        return InvoiceMapper.mapInvoiceEntityToInvoiceModel(
-                invoiceRepository.save(
-                        InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel)));
+        Address addressToSave = null;
+        if (invoiceCreateModel.getAddress() != null) {
+            Optional<Address> optionalAddress = addressRepository.findAddressByCountryAndPostalCodeAndCityAndLine(
+                    invoiceCreateModel.getAddress().getCountry(),
+                    invoiceCreateModel.getAddress().getPostalCode(),
+                    invoiceCreateModel.getAddress().getCity(),
+                    invoiceCreateModel.getAddress().getLine());
+
+            if (optionalAddress.isPresent()) {
+                addressToSave = optionalAddress.get();
+            } else {
+                AddressCreateModel model = new AddressCreateModel();
+                model.setCountry(invoiceCreateModel.getAddress().getCountry());
+                model.setPostalCode(invoiceCreateModel.getAddress().getPostalCode());
+                model.setCity(invoiceCreateModel.getAddress().getCity());
+                model.setLine(invoiceCreateModel.getAddress().getLine()); // Ensure line is not null
+                addressToSave = createAddress(model);
+            }
+        } else {
+            throw new IllegalArgumentException("Address details are required");
+        }
+        invoiceCreateModel.setAddress(addressToSave);
+        return InvoiceMapper.mapInvoiceEntityToInvoiceModel(invoiceRepository.save(InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel)));
+    }
+
+    private Address createAddress(AddressCreateModel addressCreateModel) {
+        Address address = new Address();
+        address.setCountry(addressCreateModel.getCountry());
+        address.setPostalCode(addressCreateModel.getPostalCode());
+        address.setCity(addressCreateModel.getCity());
+
+        if (addressCreateModel.getLine() != null) {
+            address.setLine(addressCreateModel.getLine());
+        } else {
+            address.setLine("");
+        }
+        return addressRepository.save(address);
     }
 
     public void deleteInvoice(Long id) {
