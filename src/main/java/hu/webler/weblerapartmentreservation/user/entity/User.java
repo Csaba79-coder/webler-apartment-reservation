@@ -1,12 +1,14 @@
 package hu.webler.weblerapartmentreservation.user.entity;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
-import hu.webler.weblerapartmentreservation.address.model.AddressCreateModel;
+import hu.webler.weblerapartmentreservation.reservation.entity.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,4 +30,7 @@ public class User {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
 }
