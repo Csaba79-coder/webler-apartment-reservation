@@ -29,4 +29,15 @@
                                  referencedTableName="address" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="addForeignKeyConstraintToInvoice" author="Rol1991">
+        <dropForeignKeyConstraint baseTableName="invoice"
+                                  constraintName="FK_invoice_address"/>
+        <addForeignKeyConstraint baseTableName="invoice"
+                                 baseColumnNames="address_id"
+                                 constraintName="FK_invoice_address"
+                                 referencedTableName="address" referencedColumnNames="id"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+    </changeSet>
+
 </databaseChangeLog>
