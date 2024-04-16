@@ -2,6 +2,7 @@ package hu.webler.weblerapartmentreservation.invoice.entity;
 
 import hu.webler.weblerapartmentreservation.address.entity.Address;
 import hu.webler.weblerapartmentreservation.invoice.value.PaymentType;
+import hu.webler.weblerapartmentreservation.reservation.entity.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,4 +36,7 @@ public class Invoice {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "invoice")
+    private List<Reservation> reservations;
 }
