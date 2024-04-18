@@ -1,4 +1,4 @@
-package hu.webler.weblerapartmentreservation.controller;
+package hu.webler.weblerapartmentreservation.view;
 
 import hu.webler.weblerapartmentreservation.domain.apartment.service.ApartmentService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +18,15 @@ public class ApartmentWebController {
         return "index";
     }
 
-    @GetMapping("index")
+    @GetMapping("/apartments")
     public String renderAllApartments(Model model) {
-        model.addAttribute("index", apartmentService.findAllApartments());
-        return "index";
+        model.addAttribute("apartments", apartmentService.findAllApartments());
+        return "apartments";
     }
 
-    @GetMapping("/index/{id}")
+    @GetMapping("/apartments/{id}")
     public String renderApartmentById(@PathVariable Long id, Model model) {
-        model.addAttribute("index", apartmentService.findApartmentById(id));
-        return "index";
+        model.addAttribute("apartments", apartmentService.findApartmentById(id));
+        return "apartments";
     }
 }
