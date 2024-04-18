@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto+Slab&display=swap');
+
+body{
+    font-family: 'Roboto Slab', serif;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Lobster', cursive;
+}
+
+/*Navbar*/
+nav{
+    background-color: rgb(253, 207, 0);
+}
