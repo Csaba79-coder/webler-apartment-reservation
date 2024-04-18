@@ -13,20 +13,16 @@ public class ApartmentWebController {
 
     private final ApartmentService apartmentService;
 
-    @GetMapping
-    public String homePage() {
-        return "index";
-    }
 
     @GetMapping("/apartments")
     public String renderAllApartments(Model model) {
         model.addAttribute("apartments", apartmentService.findAllApartments());
-        return "apartments";
+        return "apartment";
     }
 
     @GetMapping("/apartments/{id}")
     public String renderApartmentById(@PathVariable Long id, Model model) {
         model.addAttribute("apartments", apartmentService.findApartmentById(id));
-        return "apartments";
+        return "apartment";
     }
 }
