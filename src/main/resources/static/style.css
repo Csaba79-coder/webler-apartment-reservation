@@ -26,10 +26,21 @@ nav{
 }
 
 .card img{
-    height: 233.09px;
+    height: 233px;
 }
 
 .center-table {
     margin: 0 auto; /* Set left and right margin to auto */
     width: 50%; /* Set a width to control the size of the centered content */
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .center-table {
+        width: 80%; /* Adjust the width for smaller screens */
+    }
+
+    .card img {
+        height: auto; /* Make the image height adjust automatically */
+    }
 }
