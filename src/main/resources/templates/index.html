@@ -7,33 +7,8 @@
     <link rel="stylesheet" th:href="@{/style.css}">
     <title>Title ...</title>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="http://localhost:8080">Webex Apartman</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/thy/apartments">Szobáink</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../contact/contact.html">Kapcsolat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../aboutus/aboutus.html">Rólunk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:8080/thy/apartments">Apartmanok</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
     <body>
+        <div th:replace="navbar"></div>
         <h1>Webex Apartman</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At, nulla. Ipsum laudantium autem natus
             veritatis fugiat praesentium recusandae suscipit debitis quidem architecto. Voluptate libero
