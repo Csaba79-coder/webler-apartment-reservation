@@ -13,25 +13,41 @@
         <div th:replace="navbar"></div>
         <h1>Apartmanok</h1>
         <div class="center-table">
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Floor number</th>
-                    <th>Room number</th>
-                    <!-- Add more columns as needed -->
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Iterate over the list of apartments and display each one -->
-                <tr th:each="apartment : ${apartments}">
-                    <td th:text="${apartment.id}">ID</td>
-                    <td th:text="${apartment.floorNumber}">Name</td>
-                    <td th:text="${apartment.roomNumber}">Location</td>
-                    <!-- Add more columns as needed -->
-                </tr>
-                </tbody>
-            </table>
+            <th:block th:if="${apartments.empty}">
+                <p>Nincs rendelkezésre álló adat</p>
+            </th:block>
+            <th:block th:unless="${apartments.empty}">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Emelet</th>
+                        <th>Szoba száma</th>
+                        <th>Min. fő</th>
+                        <th>Max. fő</th>
+                        <th>Típus</th>
+                        <th>Leírás</th>
+                        <th>Ár</th>
+                        <th>Ország</th>
+                        <th>Város</th>
+                        <th>Utca</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="apartment : ${apartments}">
+                        <td th:text="${apartment.floorNumber}"></td>
+                        <td th:text="${apartment.roomNumber}"></td>
+                        <td th:text="${apartment.minGuest}"></td>
+                        <td th:text="${apartment.maxGuest}"></td>
+                        <td th:text="${apartment.apartmentType}"></td>
+                        <td th:text="${apartment.description}"></td>
+                        <td th:text="${apartment.price}"></td>
+                        <td th:text="${apartment.address.country}"></td>
+                        <td th:text="${apartment.address.city}"></td>
+                        <td th:text="${apartment.address.line}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </th:block>
         </div>
     </body>
 </html>
