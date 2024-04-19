@@ -8,6 +8,10 @@ h1, h2, h3, h4, h5, h6{
     font-family: 'Lobster', cursive;
 }
 
+h1 {
+    text-align: center;
+}
+
 /*Navbar*/
 nav{
     background-color: rgb(253, 207, 0);
@@ -23,4 +27,9 @@ nav{
 
 .card img{
     height: 233.09px;
+}
+
+.center-table {
+    margin: 0 auto; /* Set left and right margin to auto */
+    width: 50%; /* Set a width to control the size of the centered content */
 }

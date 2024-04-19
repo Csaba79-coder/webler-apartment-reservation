@@ -40,24 +40,26 @@
         </div>
     </nav>
         <h1>Apartmanok</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Floor number</th>
-                <th>Room number</th>
-                <!-- Add more columns as needed -->
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Iterate over the list of apartments and display each one -->
-            <tr th:each="apartment : ${apartments}">
-                <td th:text="${apartment.id}">ID</td>
-                <td th:text="${apartment.floorNumber}">Name</td>
-                <td th:text="${apartment.roomNumber}">Location</td>
-                <!-- Add more columns as needed -->
-            </tr>
-            </tbody>
-        </table>
+        <div class="center-table">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Floor number</th>
+                    <th>Room number</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate over the list of apartments and display each one -->
+                <tr th:each="apartment : ${apartments}">
+                    <td th:text="${apartment.id}">ID</td>
+                    <td th:text="${apartment.floorNumber}">Name</td>
+                    <td th:text="${apartment.roomNumber}">Location</td>
+                    <!-- Add more columns as needed -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
