@@ -30,6 +30,9 @@
                         <th>Ország</th>
                         <th>Város</th>
                         <th>Utca</th>
+                        <th>Kiválaszt</th>
+                        <th>Módosít</th>
+                        <th>Töröl</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,6 +47,15 @@
                         <td th:text="${apartment.address.country}"></td>
                         <td th:text="${apartment.address.city}"></td>
                         <td th:text="${apartment.address.line}"></td>
+                        <td>
+                            <button type="button" class="select-button">Select</button>
+                        </td>
+                        <td>
+                            <button type="button" class="update-button">Update</button>
+                        </td>
+                        <td>
+                            <button type="button" class="delete-button">Delete</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
