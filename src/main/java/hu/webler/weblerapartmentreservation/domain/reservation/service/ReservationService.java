@@ -1,7 +1,17 @@
 package hu.webler.weblerapartmentreservation.domain.reservation.service;
 
+import hu.webler.weblerapartmentreservation.domain.apartment.entity.Apartment;
+import hu.webler.weblerapartmentreservation.domain.apartment.model.ApartmentCreateModel;
+import hu.webler.weblerapartmentreservation.domain.apartment.persistance.ApartmentRepository;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
+import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationCreateModel;
+import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationModel;
 import hu.webler.weblerapartmentreservation.domain.reservation.persistance.ReservationRepository;
+import hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper;
+import hu.webler.weblerapartmentreservation.domain.user.entity.User;
+import hu.webler.weblerapartmentreservation.domain.user.model.UserCreateModel;
+import hu.webler.weblerapartmentreservation.domain.user.persistance.UserRepository;
+import hu.webler.weblerapartmentreservation.domain.user.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +27,8 @@ import java.util.NoSuchElementException;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
+    private final ApartmentRepository apartmentRepository;
+    private final UserRepository userRepository;
 
     public List<Reservation>  renderAllReservations() {
         return reservationRepository.findAll();
