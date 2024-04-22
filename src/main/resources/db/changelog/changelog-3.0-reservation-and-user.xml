@@ -83,4 +83,16 @@
                                  referencedTableName="apartment" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="addInvoiceIdToReservationTable" author="Rol1991">
+        <addColumn tableName="reservation">
+            <column name="invoice_id" type="BIGINT">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addForeignKeyConstraint baseTableName="reservation" baseColumnNames="invoice_id"
+                                 constraintName="FK_reservation_invoice"
+                                 referencedTableName="invoice" referencedColumnNames="id"/>
+    </changeSet>
+
 </databaseChangeLog>
