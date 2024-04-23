@@ -3,7 +3,6 @@ package hu.webler.weblerapartmentreservation.domain.address.service;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressModel;
-import hu.webler.weblerapartmentreservation.domain.address.model.AddressUpdateModel;
 import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.domain.address.util.AddressMapper;
 import org.junit.jupiter.api.DisplayName;
