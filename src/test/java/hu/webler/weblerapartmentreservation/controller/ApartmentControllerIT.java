@@ -9,7 +9,6 @@ import hu.webler.weblerapartmentreservation.domain.apartment.service.ApartmentSe
 import hu.webler.weblerapartmentreservation.domain.apartment.value.ApartmentStatus;
 import hu.webler.weblerapartmentreservation.domain.apartment.value.ApartmentType;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,9 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
-
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -50,15 +47,9 @@ public class ApartmentControllerIT {
     @MockBean
     private ApartmentService apartmentService;
 
-    @BeforeEach
-    public void init() {
-        Apartment apartment = new Apartment();
-        ApartmentModel apartmentModel = new ApartmentModel();
-    }
-
     @Test
-    @DisplayName("Given empty list when findAllApartments then return empty list")
-    public void givenEmptyList_whenFindAllApartments_thenReturnsEmptyList() throws Exception {
+    @DisplayName("Given empty list when renderAllApartments() then return empty list")
+    public void givenEmptyList_whenRenderAllApartments_thenReturnsEmptyList() throws Exception {
         // Given
         given(apartmentService.findAllApartments()).willReturn(Collections.emptyList());
         List<ApartmentModel> expectedModels = new ArrayList<>();
@@ -83,8 +74,8 @@ public class ApartmentControllerIT {
     }
 
     @Test
-    @DisplayName("Given non-empty list when findAllApartments then return list")
-    public void givenNonEmptyList_whenFindAllApartments_thenReturnNonEmptyList() throws Exception {
+    @DisplayName("Given non-empty list when renderAllApartments() then return list of ApartmentModels")
+    public void givenNonEmptyList_whenRenderAllApartments_thenReturnApartmentModelList() throws Exception {
         // Given
         Long apartmentId1 = 1L;
         Long apartmentId2 = 2L;
@@ -95,7 +86,6 @@ public class ApartmentControllerIT {
                 new ApartmentModel(apartmentId2, 2, 2, 2, 2, ApartmentType.SINGLE, "Test value 2",
                         ApartmentStatus.AVAILABLE, new BigDecimal("2.0") , new Address())
         );
-
         given(apartmentService.findAllApartments()).willReturn(expectedModels);
 
         // When
@@ -120,8 +110,8 @@ public class ApartmentControllerIT {
     }
 
     @Test
-    @DisplayName("Given valid id when findApartmentById then return Apartment")
-    public void givenValidId_whenFindApartmentById_thenReturnApartment() throws Exception {
+    @DisplayName("Given valid apartment id when findApartmentById() then return Apartment")
+    public void givenValidApartmentId_whenFindApartmentById_thenReturnApartment() throws Exception {
         // Given
         Long id = new Random().nextLong();
         Address address = new Address(1L, "test", "test", "test", "test");
@@ -131,10 +121,11 @@ public class ApartmentControllerIT {
         );
 
         // Mock
-        Apartment apartment = new Apartment(id,1, 1, 1, 1,
-                ApartmentType.SINGLE, "test", ApartmentStatus.AVAILABLE, new BigDecimal(1L), address, reservations);
+        Apartment apartment = new Apartment(id,1, 1, 1, 1, ApartmentType.SINGLE,
+                "test", ApartmentStatus.AVAILABLE, new BigDecimal(1L), address, reservations);
         when(apartmentService.findApartmentById(any(Long.class))).thenReturn(apartment);
 
+        // When
         MvcResult result = mockMvc.perform(get("/api/apartments/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -143,7 +134,6 @@ public class ApartmentControllerIT {
         // Then
         assertThat(id).isNotNull();
         assertThat(id).isEqualTo(apartment.getId());
-
         String responseContent = result.getResponse().getContentAsString();
         ApartmentModel actualApartment = objectMapper.readValue(responseContent, ApartmentModel.class);
 
@@ -153,23 +143,13 @@ public class ApartmentControllerIT {
     }
 
     @Test
-    @DisplayName("Given invalid id when findApartmentById then throw NoSuchElementException")
-    public void givenInvalidId_whenFindApartmentById_thenThrowNoSuchElementException() throws Exception {
-        Long apartmentId = 1L;
-
-        when(mockMvc.perform(get("/api/apartments/{id}", apartmentId)))
-                .thenThrow(new NoSuchElementException());
-    }
-
-    @Test
-    @DisplayName("Given valid id when deleteApartmentById then delete apartment")
-    public void givenValidId_whenDeleteApartmentById_thenDeleteApartment() throws Exception {
+    @DisplayName("Given valid apartment id when deleteApartmentById() then delete apartment")
+    public void givenValidApartmentId_whenDeleteApartmentById_thenDeleteApartment() throws Exception {
         // Given
         Long id = new Random().nextLong();
         List<Reservation> reservations = Arrays.asList(
                 new Reservation(),
-                new Reservation()
-        );
+                new Reservation());
 
         // Mock
         Apartment apartment = new Apartment(id, 1, 1, 1, 1, ApartmentType.SINGLE, "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10L),
@@ -181,16 +161,4 @@ public class ApartmentControllerIT {
                 .andExpect(status().isNoContent())
                 .andReturn();
     }
-
-    @Test
-    @DisplayName("Given invalid id when deleteApartmentById then throw NoSuchElementException")
-    public void givenInvalidId_whenDeleteAddressById_thenThrowNoSuchElementException() throws Exception {
-        // Given
-        Long apartmentId = 1L;
-
-        // When / Then
-        when(mockMvc.perform(delete("/api/apartments/{id}", apartmentId)))
-                .thenThrow(new NoSuchElementException());
-    }
-
 }

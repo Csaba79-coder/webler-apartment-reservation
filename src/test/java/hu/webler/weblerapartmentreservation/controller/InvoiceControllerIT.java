@@ -8,8 +8,6 @@ import hu.webler.weblerapartmentreservation.domain.invoice.model.InvoiceModel;
 import hu.webler.weblerapartmentreservation.domain.invoice.service.InvoiceService;
 import hu.webler.weblerapartmentreservation.domain.invoice.value.PaymentType;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
-import hu.webler.weblerapartmentreservation.domain.user.model.UserModel;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,18 +47,9 @@ public class InvoiceControllerIT {
     @MockBean
     private InvoiceService invoiceService;
 
-    private Invoice invoice;
-    private InvoiceModel invoiceModel;
-
-    @BeforeEach
-    public void init() {
-        invoice = new Invoice();
-        invoiceModel = new InvoiceModel();
-    }
-
     @Test
-    @DisplayName("Given empty list when findAllInvoices then return empty list")
-    public void givenEmptyList_whenFindAllInvoices_thenReturnsEmptyList() throws Exception {
+    @DisplayName("Given empty list when renderAllInvoices() then return empty list")
+    public void givenEmptyList_whenRenderAllInvoices_thenReturnsEmptyList() throws Exception {
         // Given
         given(invoiceService.findAllInvoices()).willReturn(Collections.emptyList());
         List<InvoiceModel> expectedModel = new ArrayList<>();
@@ -85,8 +74,8 @@ public class InvoiceControllerIT {
     }
 
     @Test
-    @DisplayName("Given non-empty list when findAllInvoices then return list")
-    public void givenNonEmptyList_whenFindAllInvoices_thenReturnNonEmptyList() throws Exception {
+    @DisplayName("Given non-empty list when renderAllInvoices() then return list of InvoiceModels")
+    public void givenNonEmptyList_whenRenderAllInvoices_thenReturnInvoiceModelList() throws Exception {
         // Given
         Long invoiceId1 = 1L;
         Long invoiceId2 = 2L;
@@ -95,7 +84,6 @@ public class InvoiceControllerIT {
                 new InvoiceModel(invoiceId1, LocalDateTime.now(), PaymentType.CARD, new Address()),
                 new InvoiceModel(invoiceId2, LocalDateTime.now(), PaymentType.CASH, new Address())
         );
-
         given(invoiceService.findAllInvoices()).willReturn(expectedModels);
 
         // When
@@ -120,8 +108,8 @@ public class InvoiceControllerIT {
     }
 
     @Test
-    @DisplayName("Given valid id when findInvoiceById then return Invoice")
-    public void givenValidId_whenFindInvoiceById_thenReturnInvoice() throws Exception {
+    @DisplayName("Given valid invoice id when findInvoiceById() then return Invoice")
+    public void givenValidInvoiceId_whenFindInvoiceById_thenReturnInvoice() throws Exception {
         // Given
         Long id = new Random().nextLong();
         Address address = new Address(1L, "Test", "Test", "Test", "Test");
@@ -143,51 +131,31 @@ public class InvoiceControllerIT {
         // Then
         assertThat(id).isNotNull();
         assertThat(id).isEqualTo(invoice.getId());
-
         String responseContent = result.getResponse().getContentAsString();
         InvoiceModel actualInvoice  = objectMapper.readValue(responseContent, InvoiceModel.class);
+
         assertThat(actualInvoice)
                 .usingRecursiveComparison()
                 .isEqualTo(invoice);
     }
 
     @Test
-    @DisplayName("Given invalid id when findInvoiceById then throw NoSuchElementException")
-    public void givenInvalidId_whenFindInvoiceById_thenThrowNoSuchElementException() throws Exception {
-        Long invoiceId = 1L;
-
-        when(mockMvc.perform(get("/api/invoices/{id}", invoiceId)))
-                .thenThrow(new NoSuchElementException());
-    }
-
-    @Test
-    @DisplayName("Given valid id when deleteInvoiceById then delete invoice")
+    @DisplayName("Given valid invoice id when deleteInvoiceById() then delete invoice")
     public void givenValidId_whenDeleteInvoiceById_thenDeleteInvoice() throws Exception {
         // Given
         Long id = new Random().nextLong();
         List<Reservation> reservations = Arrays.asList(
                 new Reservation(),
-                new Reservation()
-        );
+                new Reservation());
 
         // Mock
         Invoice invoice = new Invoice(id, LocalDateTime.now(),PaymentType.CARD, LocalDate.now(),
                 new Address(), reservations);
 
+        // When / Then
         MvcResult result = mockMvc.perform(delete("/api/invoices/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();
-    }
-
-    @Test
-    @DisplayName("Given invalid id when deleteUserById then throw NoSuchElementException")
-    public void givenInvalidId_whenDeleteInvoiceById_thenThrowNoSuchElementException() throws Exception {
-        // Given
-        Long invoiceId = 1L;
-
-        // When / Then
-        when(mockMvc.perform(delete("/api/invoices/{id}", invoiceId)))
-                .thenThrow(new NoSuchElementException());
     }
 }

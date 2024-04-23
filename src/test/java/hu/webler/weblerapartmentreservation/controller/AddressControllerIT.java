@@ -5,8 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressModel;
 import hu.webler.weblerapartmentreservation.domain.address.service.AddressService;
-import org.assertj.core.api.ThrowableAssert;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,15 +47,9 @@ public class AddressControllerIT {
     @MockBean
     private AddressService addressService;
 
-    @BeforeEach
-    public void init() {
-        Address address = new Address();
-        AddressModel addressModel = new AddressModel();
-    }
-
     @Test
-    @DisplayName("Given empty list when findAllAddress then return empty list")
-    public void givenEmptyList_whenFindAllAddress_thenReturnsEmptyList() throws Exception {
+    @DisplayName("Given empty list when renderAllAddress() then return empty list")
+    public void givenEmptyList_whenRenderAllAddress_thenReturnsEmptyList() throws Exception {
         // Given
         given(addressService.findAllAddress()).willReturn(Collections.emptyList());
         List<AddressModel> expectedModels = new ArrayList<>();
@@ -83,8 +74,8 @@ public class AddressControllerIT {
     }
 
     @Test
-    @DisplayName("Given non-empty list when findAllAddress then return list")
-    public void givenNonEmptyList_whenFindAllAddress_thenReturnNonEmptyList() throws Exception {
+    @DisplayName("Given non-empty list when renderAllAddress() then return list of AddressModels")
+    public void givenNonEmptyList_whenRenderAllAddress_thenReturnAddressModelList() throws Exception {
         // Given
         Long addressId1 = 1L;
         Long addressId2 = 2L;
@@ -93,7 +84,6 @@ public class AddressControllerIT {
                 new AddressModel(addressId1, "testCountry1", "testPostalCode1", "testCity1", "testLine1"),
                 new AddressModel(addressId2, "testCountry1", "testPostalCode1", "testCity1", "testLine1")
         );
-
         given(addressService.findAllAddress()).willReturn(expectedModels);
 
         // When
@@ -118,8 +108,8 @@ public class AddressControllerIT {
     }
 
     @Test
-    @DisplayName("Given valid id when findAddressById then return Address")
-    public void givenValidId_whenFindAddressById_thenReturnAddress() throws Exception {
+    @DisplayName("Given valid address id when findAddressById() then return Address")
+    public void givenValidAddressId_whenFindAddressById_thenReturnAddress() throws Exception {
         // Given
         Long id = new Random().nextLong();
 
@@ -136,7 +126,6 @@ public class AddressControllerIT {
         // Then
         assertThat(id).isNotNull();
         assertThat(id).isEqualTo(address.getId());
-
         String responseContent = result.getResponse().getContentAsString();
         AddressModel actualAddress = objectMapper.readValue(responseContent, AddressModel.class);
 
@@ -146,8 +135,8 @@ public class AddressControllerIT {
     }
 
     @Test
-    @DisplayName("Given valid id when deleteAddressById then delete address")
-    public void givenValidId_whenDeleteAddressById_thenDeleteAddress() throws Exception {
+    @DisplayName("Given valid address id when deleteAddressById() then delete address")
+    public void givenValidAddressId_whenDeleteAddressById_thenDeleteAddress() throws Exception {
         // Given
         Long id = new Random().nextLong();
 
@@ -159,6 +148,5 @@ public class AddressControllerIT {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();
-
     }
 }
