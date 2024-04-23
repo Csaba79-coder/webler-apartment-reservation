@@ -141,10 +141,10 @@ public class AddressControllerIT {
         Long id = new Random().nextLong();
 
         // Mock
-        Address address = new Address(id, "testCountry", "testPostalCode", "testCity", "testLine");
+        new Address(id, "testCountry", "testPostalCode", "testCity", "testLine");
 
         // When / Then
-        MvcResult result = mockMvc.perform(delete("/api/address/{id}", id)
+        mockMvc.perform(delete("/api/address/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();
