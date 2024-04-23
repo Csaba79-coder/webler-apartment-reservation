@@ -1,6 +1,6 @@
 package hu.webler.weblerapartmentreservation.view;
 
-import hu.webler.weblerapartmentreservation.domain.apartment.service.ApartmentService;
+import hu.webler.weblerapartmentreservation.domain.invoice.service.InvoiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/thy")
-public class ApartmentWebController {
+public class InvoiceWebController {
 
-    private final ApartmentService apartmentService;
+    private final InvoiceService invoiceService;
 
-    @GetMapping("/apartments")
-    public String renderAllApartments(Model model) {
-        model.addAttribute("apartments", apartmentService.findAllApartments());
-        return "apartment";
+    @GetMapping("/invoices")
+    public String renderAllInvoices(Model model) {
+        model.addAttribute("invoices", invoiceService.findAllInvoices());
+        return "invoice";
     }
 }

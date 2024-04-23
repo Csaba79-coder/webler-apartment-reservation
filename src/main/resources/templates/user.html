@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: head"></head>
+<body>
+<div th:replace="navbar"></div>
+<h1>Felhasználók</h1>
+<div class="center-table">
+    <th:block th:if="${users.empty}">
+        <p>Nincs rendelkezésre álló adat</p>
+    </th:block>
+    <th:block th:unless="${users.empty}">
+        <table>
+            <thead>
+            <tr>
+                <th>Vezetéknév</th>
+                <th>Keresztnév</th>
+                <th>Email</th>
+                <th>Mobil</th>
+                <th>Kiválaszt</th>
+                <th>Módosít</th>
+                <th>Töröl</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.getLastName()}"></td>
+                <td th:text="${user.getFirstName()}"></td>
+                <td th:text="${user.getEmail()}"></td>
+                <td th:text="${user.getPhoneNumber()}"></td>
+                <td>
+                    <button type="button" class="select-button">Select</button>
+                </td>
+                <td>
+                    <button type="button" class="update-button">Update</button>
+                </td>
+                <td>
+                    <button type="button" class="delete-button">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+</div>
+</body>
+</html>
