@@ -101,8 +101,8 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid reservation id when findReservationById() then returns reservation entity")
-    public void givenValidReservationId_whenFindReservationById_thenReturnsReservationEntity() {
+    @DisplayName("Given valid reservation id when renderReservationById() then returns reservation entity")
+    public void givenValidReservationId_whenRenderReservationById_thenReturnsReservationEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
 
@@ -128,8 +128,8 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given invalid reservation id when findReservationById() then throwsNoSuchElementException")
-    public void givenInvalidReservationId_whenFindReservationById_thenThrowsNoSuchElementException() {
+    @DisplayName("Given invalid reservation id when renderReservationById() then throwsNoSuchElementException")
+    public void givenInvalidReservationId_whenRenderReservationById_thenThrowsNoSuchElementException() {
         // Given
         Long searchId = new Random().nextLong(1, 100);
 
@@ -194,6 +194,4 @@ public class ReservationServiceTest {
         assertThatThrownBy(() -> reservationService.createReservation(reservationCreateModel))
                 .isInstanceOf(NullPointerException.class);
     }
-
-
 }
