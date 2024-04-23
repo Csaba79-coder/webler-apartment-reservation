@@ -20,7 +20,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Address service test - unit test")
+@DisplayName("Address service test")
 public class AddressServiceTest {
 
     @Mock
@@ -31,7 +31,7 @@ public class AddressServiceTest {
 
     @Test
     @DisplayName("Given empty address list when findAllAddress() then returns empty list")
-    public void givenEmptyAddressList_whenGetAllAddress_thenReturnsEmptyList() {
+    public void givenEmptyAddressList_whenFindAllAddress_thenReturnsEmptyList() {
         // Given
         when(addressRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -45,13 +45,12 @@ public class AddressServiceTest {
 
     @Test
     @DisplayName("Given a non empty address list when findAllAddress() then return list of address models")
-    public void givenNonEmptyAddressList_whenGetAllAddress_thenReturnListOfAddressModels() {
+    public void givenNonEmptyAddressList_whenFindAllAddress_thenReturnListOfAddressModels() {
         // Given
         List<Address> addressData = List.of(
                 new Address(1L, "country1", "postalCode1", "city1", "line1"),
                 new Address(2L, "country2", "postalCode2", "city2", "line2")
         );
-
         when(addressRepository.findAll()).thenReturn(addressData);
 
         // When
@@ -70,17 +69,14 @@ public class AddressServiceTest {
     public void givenValidAddressId_whenFindAddressById_thenReturnsAddressEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
-
         List<Address> addressData = List.of(
                 new Address(1L, "country1", "postalCode1", "city1", "line1"),
                 new Address(2L, "country2", "postalCode2", "city2", "line2"),
                 new Address(3L, "country3", "postalCode3", "city3", "line3"),
                 new Address(4L, "country4", "postalCode4", "city4", "line4")
         );
-
         Address address = addressData.get(random.intValue() - 1);
         Long searchId = address.getId();
-
         when(addressRepository.findById(random)).thenReturn(Optional.ofNullable(address));
 
         // When
@@ -93,7 +89,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given invalid address id when findAddressById() then throws no such element exception")
+    @DisplayName("Given invalid address id when findAddressById() then throws NoSuchElementException")
     public void givenInvalidAddressId_whenFindAddressById_thenThrowsNoSuchElementException() {
         // Given
         Long searchId = new Random().nextLong();
@@ -105,8 +101,8 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid addressCreateModel when creating address then returns address model")
-    public void givenValidAddressCreateModel_whenCreatingAddress_thenReturnsAddressModel() {
+    @DisplayName("Given valid addressCreateModel when createAddress() then returns address model")
+    public void givenValidAddressCreateModel_whenCreateAddress_thenReturnsAddressModel() {
         // Given
         AddressCreateModel addressCreateModel = new AddressCreateModel();
         addressCreateModel.setCountry("testCountry");
@@ -121,7 +117,6 @@ public class AddressServiceTest {
         expectedModel.setPostalCode("testPostalCode");
         expectedModel.setCity("testCity");
         expectedModel.setLine("testLine");
-
         when(addressRepository.save(any())).thenReturn(AddressMapper.mapAddressCreateModelToAddressEntity(addressCreateModel));
 
         // When
@@ -135,15 +130,14 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid address id when deleting address then verify")
+    @DisplayName("Given valid address id when deleteAddress() then verify")
     public void givenValidAddressId_whenDeletingAddress_thenVerify() {
         // Given
         Long id = new Random().nextLong();
-        Address address = AddressMapper.mapAddressCreateModelToAddressEntity
-                (new AddressCreateModel("test", "test", "Test", "Test"));
+        Address address = AddressMapper.mapAddressCreateModelToAddressEntity(new AddressCreateModel("test", "test", "Test", "Test"));
         address.setId(id);
-        addressRepository.save(address);
 
+        addressRepository.save(address);
         when(addressRepository.findById(id)).thenReturn(Optional.ofNullable(address));
 
         // When
