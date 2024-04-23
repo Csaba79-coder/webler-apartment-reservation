@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: head"></head>
+<body>
+<div th:replace="navbar"></div>
+<h1>Számlák</h1>
+<div class="center-table">
+    <th:block th:if="${invoices.empty}">
+        <p>Nincs rendelkezésre álló adat</p>
+    </th:block>
+    <th:block th:unless="${invoices.empty}">
+        <table>
+            <thead>
+            <tr>
+                <th>Számla dátuma</th>
+                <th>Fizetés módja</th>
+                <th>Kiválaszt</th>
+                <th>Módosít</th>
+                <th>Töröl</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="invoice : ${invoices}">
+                <td th:text="${invoice.getGenerationDate()}"></td>
+                <td th:text="${invoice.getPaymentType()}"></td>
+                <td>
+                    <button type="button" class="select-button">Select</button>
+                </td>
+                <td>
+                    <button type="button" class="update-button">Update</button>
+                </td>
+                <td>
+                    <button type="button" class="delete-button">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </th:block>
+</div>
+</body>
+</html>

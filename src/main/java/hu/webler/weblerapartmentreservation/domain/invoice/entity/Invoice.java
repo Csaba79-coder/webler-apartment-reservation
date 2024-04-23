@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.domain.invoice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.invoice.value.PaymentType;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
@@ -37,6 +38,7 @@ public class Invoice {
     @JoinColumn(name = "address_id")
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "invoice")
     private List<Reservation> reservations;
 }

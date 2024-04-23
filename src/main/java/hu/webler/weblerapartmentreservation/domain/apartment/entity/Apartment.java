@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.domain.apartment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.apartment.value.ApartmentStatus;
 import hu.webler.weblerapartmentreservation.domain.apartment.value.ApartmentType;
@@ -41,6 +42,7 @@ public class Apartment {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "apartment")
     private List<Reservation> reservations;
 }
