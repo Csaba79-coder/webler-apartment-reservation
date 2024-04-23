@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Apartment service test - unit test")
+@DisplayName("Apartment service test")
 public class ApartmentServiceTest {
 
     @Mock
@@ -41,7 +41,7 @@ public class ApartmentServiceTest {
 
     @Test
     @DisplayName("Given empty apartment list when findAllApartments() then returns empty list")
-    public void givenEmptyApartmentList_whenGetAllApartments_thenReturnsEmptyList() {
+    public void givenEmptyApartmentList_whenFindAllApartments_thenReturnsEmptyList() {
         // Given
         when(apartmentRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -64,7 +64,6 @@ public class ApartmentServiceTest {
                         "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10),
                         new Address(), new ArrayList<>())
         );
-
         when(apartmentRepository.findAll()).thenReturn(apartmentData);
 
         // When
@@ -82,7 +81,6 @@ public class ApartmentServiceTest {
     public void givenValidApartmentId_whenFindApartmentById_thenReturnsApartmentEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
-
         List<Apartment> apartmentData = List.of(
                 new Apartment(1L, 1, 1, 1, 1, ApartmentType.SINGLE,
                         "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10),
@@ -95,12 +93,9 @@ public class ApartmentServiceTest {
                         new Address(), new ArrayList<>()),
                 new Apartment(4L, 2, 2, 2, 2, ApartmentType.SINGLE,
                         "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10),
-                        new Address(), new ArrayList<>())
-        );
-
+                        new Address(), new ArrayList<>()));
         Apartment apartment = apartmentData.get(random.intValue() - 1);
         Long searchId = apartment.getId();
-
         when(apartmentRepository.findById(random)).thenReturn(Optional.ofNullable(apartment));
 
         // When
@@ -113,7 +108,7 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given invalid apartment id when findApartmentById() then throws no such element exception")
+    @DisplayName("Given invalid apartment id when findApartmentById() then throws NoSuchElementException")
     public void givenInvalidApartmentId_whenFindApartmentById_thenThrowsNoSuchElementException() {
         // Given
         Long searchId = new Random().nextLong(1, 100);
@@ -125,11 +120,10 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid apartmentCreateModel when creating apartment then returns apartment model")
-    public void givenValidApartmentCreateModel_whenCreatingApartment_thenReturnsApartmentModel() {
+    @DisplayName("Given valid apartmentCreateModel when createApartment() then returns apartment model")
+    public void givenValidApartmentCreateModel_whenCreateApartment_thenReturnsApartmentModel() {
         // Given
         Address address = new Address(1L, "Test data", "Test data", "Test data", "Test data");
-
         ApartmentCreateModel apartmentCreateModel = new ApartmentCreateModel();
         apartmentCreateModel.setFloorNumber(1);
         apartmentCreateModel.setRoomNumber(1);
@@ -152,7 +146,6 @@ public class ApartmentServiceTest {
         expectedModel.setPrice(new BigDecimal(10));
         expectedModel.setAddress(address);
         expectedModel.setApartmentStatus(ApartmentStatus.AVAILABLE);
-
         when(apartmentRepository.save(any())).thenReturn(ApartmentMapper.mapApartmentCreateModelToApartmentEntity(apartmentCreateModel));
 
         // When
@@ -166,10 +159,9 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing address info when creating apartment then throws IllegalArgumentException")
-    public void givenMissingAddress_whenCreatingApartment_thenThrowsIllegalArgumentException() {
+    @DisplayName("Given missing address when createApartment() then throws IllegalArgumentException")
+    public void givenMissingAddress_whenCreateApartment_thenThrowsIllegalArgumentException() {
         // Given
-
         ApartmentCreateModel apartmentCreateModel = new ApartmentCreateModel();
         apartmentCreateModel.setFloorNumber(1);
         apartmentCreateModel.setRoomNumber(1);
@@ -186,11 +178,10 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing apartment info when creating apartment then throws NullPointerException")
-    public void givenMissingApartmentInfo_whenCreatingApartment_thenThrowsNullPointerException() {
+    @DisplayName("Given missing apartment fields when createApartment() then throws NullPointerException")
+    public void givenMissingApartmentFields_whenCreateApartment_thenThrowsNullPointerException() {
         // Given
         Address address = new Address();
-
         ApartmentCreateModel apartmentCreateModel = new ApartmentCreateModel();
         apartmentCreateModel.setApartmentType(ApartmentType.SINGLE);
         apartmentCreateModel.setPrice(new BigDecimal(10));
@@ -202,17 +193,15 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid id when deleteApartmentById then delete apartment")
-    public void givenValidId_whenDeleteApartmentById_thenDeleteApartment() throws Exception {
+    @DisplayName("Given valid apartment id when deleteApartment() then delete apartment")
+    public void givenValidId_whenDeleteApartment_thenDeleteApartment() {
         // Given
         Long id = new Random().nextLong();
         Apartment apartment = ApartmentMapper.mapApartmentCreateModelToApartmentEntity(
-                new ApartmentCreateModel(1, 1, 1, 1, ApartmentType.SINGLE,
-                        "Test", new BigDecimal(10), new Address())
-        );
+                new ApartmentCreateModel(1, 1, 1, 1, ApartmentType.SINGLE, "Test", new BigDecimal(10), new Address()));
         apartment.setId(id);
-        apartmentRepository.save(apartment);
 
+        apartmentRepository.save(apartment);
         when(apartmentRepository.findById(id)).thenReturn(Optional.ofNullable(apartment));
 
         // When
