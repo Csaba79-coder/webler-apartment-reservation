@@ -30,8 +30,8 @@ public class AddressServiceTest {
     private AddressService addressService;
 
     @Test
-    @DisplayName("Given empty address list when findAllAddress() then returns empty list")
-    public void givenEmptyAddressList_whenFindAllAddress_thenReturnsEmptyList() {
+    @DisplayName("Given empty address list when findAllAddress() then return empty list")
+    public void givenEmptyAddressList_whenFindAllAddress_thenReturnEmptyList() {
         // Given
         when(addressRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -65,8 +65,8 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid address id when findAddressById() then returns address entity")
-    public void givenValidAddressId_whenFindAddressById_thenReturnsAddressEntity() {
+    @DisplayName("Given valid address id when findAddressById() then return address entity")
+    public void givenValidAddressId_whenFindAddressById_thenReturnAddressEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
         List<Address> addressData = List.of(
@@ -101,8 +101,8 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid addressCreateModel when createAddress() then returns address model")
-    public void givenValidAddressCreateModel_whenCreateAddress_thenReturnsAddressModel() {
+    @DisplayName("Given valid addressCreateModel when createAddress() then return address model")
+    public void givenValidAddressCreateModel_whenCreateAddress_thenReturnAddressModel() {
         // Given
         AddressCreateModel addressCreateModel = new AddressCreateModel();
         addressCreateModel.setCountry("testCountry");
@@ -131,7 +131,7 @@ public class AddressServiceTest {
 
     @Test
     @DisplayName("Given valid address id when deleteAddress() then verify")
-    public void givenValidAddressId_whenDeletingAddress_thenVerify() {
+    public void givenValidAddressId_whenDeleteAddress_thenVerify() {
         // Given
         Long id = new Random().nextLong();
         Address address = AddressMapper.mapAddressCreateModelToAddressEntity(new AddressCreateModel("test", "test", "Test", "Test"));

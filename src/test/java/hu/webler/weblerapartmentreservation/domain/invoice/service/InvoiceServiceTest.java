@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Invoice service test - unit test")
+@DisplayName("Invoice service test")
 public class InvoiceServiceTest {
 
     @Mock
@@ -40,8 +40,8 @@ public class InvoiceServiceTest {
     private InvoiceService invoiceService;
 
     @Test
-    @DisplayName("Given empty invoice list when findAllInvoices() then returns empty list")
-    public void givenEmptyInvoiceList_whenGetAllInvoices_thenReturnsEmptyList() {
+    @DisplayName("Given empty invoice list when findAllInvoices() then return empty list")
+    public void givenEmptyInvoiceList_whenFindAllInvoices_thenReturnEmptyList() {
         // Given
         when(invoiceRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -54,7 +54,7 @@ public class InvoiceServiceTest {
 
     @Test
     @DisplayName("Given non empty invoice list when findAllInvoices() then return list of invoice models")
-    public void givenNonEmptyInvoiceList_whenGetAllInvoices_thenReturnsListOfInvoiceModels() {
+    public void givenNonEmptyInvoiceList_whenFindAllInvoices_thenReturnListOfInvoiceModels() {
         // Given
         List<Invoice> invoiceData = List.of(
                 new Invoice(1L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(),
@@ -62,7 +62,6 @@ public class InvoiceServiceTest {
                 new Invoice(2L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(),
                         new Address(), new ArrayList<>())
         );
-
         when(invoiceRepository.findAll()).thenReturn(invoiceData);
 
         // When
@@ -76,25 +75,18 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid invoice id when findInvoiceById() then returns invoice entity")
-    public void givenValidInvoiceId_whenFindInvoiceById_thenReturnsInvoiceEntity() {
+    @DisplayName("Given valid invoice id when findInvoiceById() then return invoice entity")
+    public void givenValidInvoiceId_whenFindInvoiceById_thenReturnInvoiceEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
 
         List<Invoice> invoiceData = List.of(
-                new Invoice(1L, LocalDateTime.now(), PaymentType.CARD,
-                        LocalDate.now(), new Address(), new ArrayList<>()),
-                new Invoice(2L, LocalDateTime.now(), PaymentType.CARD,
-                        LocalDate.now(), new Address(), new ArrayList<>()),
-                new Invoice(3L, LocalDateTime.now(), PaymentType.CARD,
-                        LocalDate.now(), new Address(), new ArrayList<>()),
-                new Invoice(4L, LocalDateTime.now(), PaymentType.CARD,
-                        LocalDate.now(), new Address(), new ArrayList<>())
-        );
-
+                new Invoice(1L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), new Address(), new ArrayList<>()),
+                new Invoice(2L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), new Address(), new ArrayList<>()),
+                new Invoice(3L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), new Address(), new ArrayList<>()),
+                new Invoice(4L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), new Address(), new ArrayList<>()));
         Invoice invoice = invoiceData.get(random.intValue() - 1);
         Long searchId = invoice.getId();
-
         when(invoiceRepository.findById(random)).thenReturn(Optional.ofNullable(invoice));
 
         // When
@@ -119,8 +111,8 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid invoiceCreateModel when creating invoice then returns invoice model")
-    public void givenValidInvoiceCreateModel_whenCreatingInvoice_thenReturnsInvoiceModel() {
+    @DisplayName("Given valid invoiceCreateModel when createInvoice() then return invoice model")
+    public void givenValidInvoiceCreateModel_whenCreateInvoice_thenReturnInvoiceModel() {
         // Given
         Address address = new Address(1L, "country", "postalCode", "city", "line");
 
@@ -148,8 +140,8 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing address info when creating invoice then throws IllegalArgumentException")
-    public void givenMissingAddress_whenCreatingInvoice_thenThrowsIllegalArgumentException() {
+    @DisplayName("Given missing address when createInvoice() then throws IllegalArgumentException")
+    public void givenMissingAddress_whenCreateInvoice_thenThrowsIllegalArgumentException() {
         // Given
         InvoiceCreateModel invoiceCreateModel = new InvoiceCreateModel();
         invoiceCreateModel.setPaymentType(PaymentType.CARD);
@@ -161,8 +153,8 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing invoice info when creating invoice then throws NullPointerException")
-    public void givenMissingInvoiceInfo_whenCreatingInvoice_thenThrowsNullPointerException() {
+    @DisplayName("Given missing invoice fields when createInvoice() then throws NullPointerException")
+    public void givenMissingInvoiceFields_whenCreateInvoice_thenThrowsNullPointerException() {
         // Given
         Address address = new Address();
 
@@ -175,16 +167,14 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid id when deleteInvoiceById then delete invoice")
-    public void givenValidId_whenDeleteInvoiceById_thenDeleteInvoice() throws Exception {
+    @DisplayName("Given valid invoice id when deleteInvoice() then delete invoice")
+    public void givenValidInvoiceId_whenDeleteInvoice_thenDeleteInvoice() {
         // Given
         Long id = new Random().nextLong();
-        Invoice invoice = InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(
-                new InvoiceCreateModel(PaymentType.CARD, new Address())
-        );
+        Invoice invoice = InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(new InvoiceCreateModel(PaymentType.CARD, new Address()));
         invoice.setId(id);
-        invoiceRepository.save(invoice);
 
+        invoiceRepository.save(invoice);
         when(invoiceRepository.findById(id)).thenReturn(Optional.ofNullable(invoice));
 
         // When

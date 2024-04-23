@@ -16,7 +16,6 @@ import hu.webler.weblerapartmentreservation.domain.reservation.persistance.Reser
 import hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper;
 import hu.webler.weblerapartmentreservation.domain.user.entity.User;
 import hu.webler.weblerapartmentreservation.domain.user.persistance.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,18 +56,10 @@ public class ReservationServiceTest {
     @InjectMocks
     private ReservationService reservationService;
 
-    @BeforeEach
-    public void init() {
-        Address address = new Address(1L, "Country", "postalCode", "city", "line");
-        User user = new User(1L, "firstName", "lastName", "Email", "phoneNumber", address, new ArrayList<>());
-        Apartment apartment = new Apartment(1L, 1, 1, 1, 3, ApartmentType.SINGLE, "Description",
-                ApartmentStatus.AVAILABLE ,new BigDecimal(10L), address, new ArrayList<>());
-        Invoice invoice = new Invoice(1L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), address, new ArrayList<>());
-    }
 
     @Test
-    @DisplayName("Given empty reservation list when renderAllReservations() then returns empty list")
-    public void givenEmptyReservationList_whenGetAllReservations_thenReturnsEmptyList() {
+    @DisplayName("Given empty reservation list when renderAllReservations() then return empty list")
+    public void givenEmptyReservationList_whenRenderAllReservations_thenReturnEmptyList() {
         // Given
         when(reservationRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -80,14 +71,13 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given non empty reservation list when renderAllReservations() then returns list of reservation entities")
+    @DisplayName("Given non empty reservation list when renderAllReservations() then return list of reservation entities")
     public void givenNonEmptyReservationList_whenRenderAllReservations_thenReturnListOfReservationEntities() {
         // Given
         List<Reservation> reservationData = List.of(
                 new Reservation(1L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice()),
                 new Reservation(2L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice())
         );
-
         when(reservationRepository.findAll()).thenReturn(reservationData);
 
         // When
@@ -101,21 +91,18 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid reservation id when renderReservationById() then returns reservation entity")
-    public void givenValidReservationId_whenRenderReservationById_thenReturnsReservationEntity() {
+    @DisplayName("Given valid reservation id when renderReservationById() then return reservation entity")
+    public void givenValidReservationId_whenRenderReservationById_thenReturnReservationEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
-
         List<Reservation> reservationData = List.of(
                 new Reservation(1L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice()),
                 new Reservation(2L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice()),
                 new Reservation(3L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice()),
                 new Reservation(4L, LocalDate.now(), LocalDate.now(), new User(), new Apartment(), new Invoice())
         );
-
         Reservation reservation = reservationData.get(random.intValue() - 1);
         Long searchId = reservation.getId();
-
         when(reservationRepository.findById(random)).thenReturn(Optional.of(reservation));
 
         //  When
@@ -140,16 +127,13 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid reservationCreateModel when creating reservation then returns reservation model")
-    public void givenValidReservationCreateModel_whenCreatingReservation_thenReturnsReservationModel() {
+    @DisplayName("Given valid reservationCreateModel when createReservation() then return reservation model")
+    public void givenValidReservationCreateModel_whenCreateReservation_thenReturnReservationModel() {
         // Given
         Address address = new Address(1L, "country", "postalCode", "city", "line");
-
-        Apartment apartment = new Apartment(1L, 1, 1, 1, 1, ApartmentType.SINGLE,
-                "Test", ApartmentStatus.AVAILABLE,
+        Apartment apartment = new Apartment(1L, 1, 1, 1, 1, ApartmentType.SINGLE, "Test", ApartmentStatus.AVAILABLE,
                 new BigDecimal(10), new Address(), new ArrayList<>());
-        User user = new User(1L, "FirstName", "lastName", "Email", "phoneNumber",
-                address, new ArrayList<>());
+        User user = new User(1L, "FirstName", "lastName", "Email", "phoneNumber", address, new ArrayList<>());
         Invoice invoice = new Invoice(1L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), address, new ArrayList<>());
 
         ReservationCreateModel reservationCreateModel = new ReservationCreateModel();
@@ -167,7 +151,6 @@ public class ReservationServiceTest {
         expectedModel.setApartment(apartment);
         expectedModel.setUser(user);
         expectedModel.setInvoice(invoice);
-
         when(reservationRepository.save(any())).thenReturn(ReservationMapper.mapReservationCreateModelToReservationEntity(reservationCreateModel));
 
         // When
@@ -181,8 +164,8 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing data when creating reservation then throws NullPointerException")
-    public void givenMissingData_whenCreatingReservation_thenThrowsNullPointerException() {
+    @DisplayName("Given missing fields when createReservation() then throws NullPointerException")
+    public void givenMissingFields_whenCreateReservation_thenThrowsNullPointerException() {
         // Given
         Address address = new Address();
         User user = new User();

@@ -40,8 +40,8 @@ public class ApartmentServiceTest {
     private ApartmentService apartmentService;
 
     @Test
-    @DisplayName("Given empty apartment list when findAllApartments() then returns empty list")
-    public void givenEmptyApartmentList_whenFindAllApartments_thenReturnsEmptyList() {
+    @DisplayName("Given empty apartment list when findAllApartments() then return empty list")
+    public void givenEmptyApartmentList_whenFindAllApartments_thenReturnEmptyList() {
         // Given
         when(apartmentRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -77,8 +77,8 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid apartment id when findApartmentById() then returns apartment entity")
-    public void givenValidApartmentId_whenFindApartmentById_thenReturnsApartmentEntity() {
+    @DisplayName("Given valid apartment id when findApartmentById() then return apartment entity")
+    public void givenValidApartmentId_whenFindApartmentById_thenReturnApartmentEntity() {
         // Given
         Long random = new Random().nextLong(1, 4);
         List<Apartment> apartmentData = List.of(
@@ -120,8 +120,8 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid apartmentCreateModel when createApartment() then returns apartment model")
-    public void givenValidApartmentCreateModel_whenCreateApartment_thenReturnsApartmentModel() {
+    @DisplayName("Given valid apartmentCreateModel when createApartment() then return apartment model")
+    public void givenValidApartmentCreateModel_whenCreateApartment_thenReturnApartmentModel() {
         // Given
         Address address = new Address(1L, "Test data", "Test data", "Test data", "Test data");
         ApartmentCreateModel apartmentCreateModel = new ApartmentCreateModel();
@@ -194,7 +194,7 @@ public class ApartmentServiceTest {
 
     @Test
     @DisplayName("Given valid apartment id when deleteApartment() then delete apartment")
-    public void givenValidId_whenDeleteApartment_thenDeleteApartment() {
+    public void givenValidInvoiceId_whenDeleteApartment_thenDeleteApartment() {
         // Given
         Long id = new Random().nextLong();
         Apartment apartment = ApartmentMapper.mapApartmentCreateModelToApartmentEntity(
