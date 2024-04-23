@@ -1,9 +1,12 @@
 package hu.webler.weblerapartmentreservation.domain.invoice.service;
 
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
+import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.domain.invoice.entity.Invoice;
+import hu.webler.weblerapartmentreservation.domain.invoice.model.InvoiceCreateModel;
 import hu.webler.weblerapartmentreservation.domain.invoice.model.InvoiceModel;
 import hu.webler.weblerapartmentreservation.domain.invoice.persistence.InvoiceRepository;
+import hu.webler.weblerapartmentreservation.domain.invoice.util.InvoiceMapper;
 import hu.webler.weblerapartmentreservation.domain.invoice.value.PaymentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +21,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +31,9 @@ public class InvoiceServiceTest {
 
     @Mock
     private InvoiceRepository invoiceRepository;
+
+    @Mock
+    private AddressRepository addressRepository;
 
     @InjectMocks
     private InvoiceService invoiceService;
@@ -107,5 +115,61 @@ public class InvoiceServiceTest {
         assertThatThrownBy(() -> invoiceService.findInvoiceById(searchId))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("Invoice with id " + searchId + " was not found");
+    }
+
+    @Test
+    @DisplayName("Given valid invoiceCreateModel when creating invoice then returns invoice model")
+    public void givenValidInvoiceCreateModel_whenCreatingInvoice_thenReturnsInvoiceModel() {
+        // Given
+        Address address = new Address(1L, "country", "postalCode", "city", "line");
+
+        InvoiceCreateModel invoiceCreateModel = new InvoiceCreateModel();
+        invoiceCreateModel.setPaymentType(PaymentType.CARD);
+        invoiceCreateModel.setAddress(address);
+
+        // Mock
+        InvoiceModel expectedModel = new InvoiceModel();
+        expectedModel.setId(1L);
+        expectedModel.setGenerationDate(LocalDateTime.now());
+        expectedModel.setPaymentType(PaymentType.CARD);
+        expectedModel.setAddress(address);
+
+        when(invoiceRepository.save(any())).thenReturn(InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(invoiceCreateModel));
+
+        // When
+        InvoiceModel createdInvoiceModel = invoiceService.createInvoice(invoiceCreateModel);
+
+        // Then
+        then(expectedModel)
+                .usingRecursiveComparison()
+                .ignoringFields("id", "generationDate")
+                .isEqualTo(createdInvoiceModel);
+    }
+
+    @Test
+    @DisplayName("Given missing address info when creating invoice then throws IllegalArgumentException")
+    public void givenMissingAddress_whenCreatingInvoice_thenThrowsIllegalArgumentException() {
+        // Given
+        InvoiceCreateModel invoiceCreateModel = new InvoiceCreateModel();
+        invoiceCreateModel.setPaymentType(PaymentType.CARD);
+
+        // When / Then
+        assertThatThrownBy(() -> invoiceService.createInvoice(invoiceCreateModel))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Address details are required");
+    }
+
+    @Test
+    @DisplayName("Given missing invoice info when creating invoice then throws NullPointerException")
+    public void givenMissingInvoiceInfo_whenCreatingInvoice_thenThrowsNullPointerException() {
+        // Given
+        Address address = new Address();
+
+        InvoiceCreateModel invoiceCreateModel = new InvoiceCreateModel();
+        invoiceCreateModel.setAddress(address);
+
+        // When / Then
+        assertThatThrownBy(() -> invoiceService.createInvoice(invoiceCreateModel))
+                .isInstanceOf(NullPointerException.class);
     }
 }
