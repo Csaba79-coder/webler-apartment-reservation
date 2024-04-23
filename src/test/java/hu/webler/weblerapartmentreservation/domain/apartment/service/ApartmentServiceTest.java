@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -198,5 +199,26 @@ public class ApartmentServiceTest {
         // When / Then
         assertThatThrownBy(() -> apartmentService.createApartment(apartmentCreateModel))
                 .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @DisplayName("Given valid id when deleteApartmentById then delete apartment")
+    public void givenValidId_whenDeleteApartmentById_thenDeleteApartment() throws Exception {
+        // Given
+        Long id = new Random().nextLong();
+        Apartment apartment = ApartmentMapper.mapApartmentCreateModelToApartmentEntity(
+                new ApartmentCreateModel(1, 1, 1, 1, ApartmentType.SINGLE,
+                        "Test", new BigDecimal(10), new Address())
+        );
+        apartment.setId(id);
+        apartmentRepository.save(apartment);
+
+        when(apartmentRepository.findById(id)).thenReturn(Optional.ofNullable(apartment));
+
+        // When
+        apartmentService.deleteApartment(id);
+
+        // Then
+        verify(apartmentRepository).deleteById(any());
     }
 }
