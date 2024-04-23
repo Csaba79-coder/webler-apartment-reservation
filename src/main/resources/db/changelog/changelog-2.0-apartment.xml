@@ -30,7 +30,7 @@
             <column name="apartment_status" type="ENUM('AVAILABLE', 'BOOKED')">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="Decimal">
+            <column name="price" type="DECIMAL(10,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="address_id" type="BIGINT">
