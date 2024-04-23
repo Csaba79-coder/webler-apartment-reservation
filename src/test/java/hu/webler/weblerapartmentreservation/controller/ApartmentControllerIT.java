@@ -50,13 +50,10 @@ public class ApartmentControllerIT {
     @MockBean
     private ApartmentService apartmentService;
 
-    private Apartment apartment;
-    private ApartmentModel apartmentModel;
-
     @BeforeEach
     public void init() {
-        apartment = new Apartment();
-        apartmentModel = new ApartmentModel();
+        Apartment apartment = new Apartment();
+        ApartmentModel apartmentModel = new ApartmentModel();
     }
 
     @Test
