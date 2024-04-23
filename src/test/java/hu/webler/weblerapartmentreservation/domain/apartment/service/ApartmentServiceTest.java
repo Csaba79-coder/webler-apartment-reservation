@@ -129,7 +129,6 @@ public class ApartmentServiceTest {
         // Given
         Address address = new Address(1L, "Test data", "Test data", "Test data", "Test data");
 
-
         ApartmentCreateModel apartmentCreateModel = new ApartmentCreateModel();
         apartmentCreateModel.setFloorNumber(1);
         apartmentCreateModel.setRoomNumber(1);
@@ -186,7 +185,7 @@ public class ApartmentServiceTest {
     }
 
     @Test
-    @DisplayName("Given missing address info when creating apartment then throws IllegalArgumentException")
+    @DisplayName("Given missing apartment info when creating apartment then throws NullPointerException")
     public void givenMissingApartmentInfo_whenCreatingApartment_thenThrowsNullPointerException() {
         // Given
         Address address = new Address();
