@@ -77,7 +77,7 @@ public class AddressServiceTest {
         );
         Address address = addressData.get(random.intValue() - 1);
         Long searchId = address.getId();
-        when(addressRepository.findById(random)).thenReturn(Optional.ofNullable(address));
+        when(addressRepository.findById(random)).thenReturn(Optional.of(address));
 
         // When
         Address addressResult = addressService.findAddressById(searchId);
@@ -138,7 +138,7 @@ public class AddressServiceTest {
         address.setId(id);
 
         addressRepository.save(address);
-        when(addressRepository.findById(id)).thenReturn(Optional.ofNullable(address));
+        when(addressRepository.findById(id)).thenReturn(Optional.of(address));
 
         // When
         addressService.deleteAddress(id);
