@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class InvoiceServiceTest {
 
     @Mock
-    InvoiceRepository invoiceRepository;
+    private InvoiceRepository invoiceRepository;
 
     @InjectMocks
     private InvoiceService invoiceService;
