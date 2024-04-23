@@ -87,7 +87,7 @@ public class InvoiceServiceTest {
                 new Invoice(4L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), new Address(), new ArrayList<>()));
         Invoice invoice = invoiceData.get(random.intValue() - 1);
         Long searchId = invoice.getId();
-        when(invoiceRepository.findById(random)).thenReturn(Optional.ofNullable(invoice));
+        when(invoiceRepository.findById(random)).thenReturn(Optional.of(invoice));
 
         // When
         Invoice invoiceResult = invoiceService.findInvoiceById(searchId);
@@ -175,7 +175,7 @@ public class InvoiceServiceTest {
         invoice.setId(id);
 
         invoiceRepository.save(invoice);
-        when(invoiceRepository.findById(id)).thenReturn(Optional.ofNullable(invoice));
+        when(invoiceRepository.findById(id)).thenReturn(Optional.of(invoice));
 
         // When
         invoiceService.deleteInvoice(id);
