@@ -1,5 +1,6 @@
 package hu.webler.weblerapartmentreservation.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
 import jakarta.persistence.*;
@@ -31,6 +32,7 @@ public class User {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Reservation> reservations;
 }
