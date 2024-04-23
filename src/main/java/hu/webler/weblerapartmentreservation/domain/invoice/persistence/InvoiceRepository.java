@@ -11,7 +11,4 @@ import java.util.Optional;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
-
-    Optional<Invoice> findInvoiceByGenerationDateAndPaymentTypeAndPaymentDate(LocalDateTime generationDate,
-                                                                              PaymentType paymentType, LocalDate paymentDate);
 }
