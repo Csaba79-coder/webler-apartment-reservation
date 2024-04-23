@@ -152,11 +152,11 @@ public class ApartmentControllerIT {
                 new Reservation());
 
         // Mock
-        Apartment apartment = new Apartment(id, 1, 1, 1, 1, ApartmentType.SINGLE, "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10L),
+        new Apartment(id, 1, 1, 1, 1, ApartmentType.SINGLE, "Test", ApartmentStatus.AVAILABLE, new BigDecimal(10L),
                 new Address(), reservations);
 
         // When / Then
-        MvcResult result = mockMvc.perform(delete("/api/apartments/{id}", id)
+        mockMvc.perform(delete("/api/apartments/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();

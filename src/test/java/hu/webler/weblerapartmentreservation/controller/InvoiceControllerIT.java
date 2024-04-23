@@ -149,11 +149,11 @@ public class InvoiceControllerIT {
                 new Reservation());
 
         // Mock
-        Invoice invoice = new Invoice(id, LocalDateTime.now(),PaymentType.CARD, LocalDate.now(),
+        new Invoice(id, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(),
                 new Address(), reservations);
 
         // When / Then
-        MvcResult result = mockMvc.perform(delete("/api/invoices/{id}", id)
+        mockMvc.perform(delete("/api/invoices/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent())
                 .andReturn();

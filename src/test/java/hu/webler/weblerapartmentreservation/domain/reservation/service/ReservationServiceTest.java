@@ -167,7 +167,6 @@ public class ReservationServiceTest {
     @DisplayName("Given missing fields when createReservation() then throws NullPointerException")
     public void givenMissingFields_whenCreateReservation_thenThrowsNullPointerException() {
         // Given
-        Address address = new Address();
         User user = new User();
 
         ReservationCreateModel reservationCreateModel = new ReservationCreateModel();

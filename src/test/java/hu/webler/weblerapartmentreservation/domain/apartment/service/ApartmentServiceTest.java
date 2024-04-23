@@ -96,7 +96,7 @@ public class ApartmentServiceTest {
                         new Address(), new ArrayList<>()));
         Apartment apartment = apartmentData.get(random.intValue() - 1);
         Long searchId = apartment.getId();
-        when(apartmentRepository.findById(random)).thenReturn(Optional.ofNullable(apartment));
+        when(apartmentRepository.findById(random)).thenReturn(Optional.of(apartment));
 
         // When
         Apartment apartmentResult = apartmentService.findApartmentById(searchId);
@@ -202,7 +202,7 @@ public class ApartmentServiceTest {
         apartment.setId(id);
 
         apartmentRepository.save(apartment);
-        when(apartmentRepository.findById(id)).thenReturn(Optional.ofNullable(apartment));
+        when(apartmentRepository.findById(id)).thenReturn(Optional.of(apartment));
 
         // When
         apartmentService.deleteApartment(id);
