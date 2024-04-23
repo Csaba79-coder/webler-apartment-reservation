@@ -1,5 +1,8 @@
 package hu.webler.weblerapartmentreservation.domain.reservation.service;
 
+import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
+import hu.webler.weblerapartmentreservation.domain.address.model.AddressCreateModel;
+import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.domain.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.domain.apartment.model.ApartmentCreateModel;
 import hu.webler.weblerapartmentreservation.domain.apartment.persistance.ApartmentRepository;
@@ -10,7 +13,6 @@ import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservatio
 import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationCreateModel;
 import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationModel;
 import hu.webler.weblerapartmentreservation.domain.reservation.persistance.ReservationRepository;
-import hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper;
 import hu.webler.weblerapartmentreservation.domain.user.entity.User;
 import hu.webler.weblerapartmentreservation.domain.user.model.UserCreateModel;
 import hu.webler.weblerapartmentreservation.domain.user.persistance.UserRepository;
@@ -22,7 +24,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+
+import static hu.webler.weblerapartmentreservation.domain.address.util.AddressMapper.mapAddressCreateModelToAddressEntity;
+import static hu.webler.weblerapartmentreservation.domain.apartment.util.ApartmentMapper.mapApartmentCreateModelToApartmentEntity;
+import static hu.webler.weblerapartmentreservation.domain.invoice.util.InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity;
+import static hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper.mapReservationCreateModelToReservationEntity;
+import static hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper.mapReservationEntityToReservationModel;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +40,7 @@ public class ReservationService {
     private final ApartmentRepository apartmentRepository;
     private final UserRepository userRepository;
     private final InvoiceRepository invoiceRepository;
+    private final AddressRepository addressRepository;
 
     public List<Reservation> renderAllReservations() {
         return reservationRepository.findAll();
@@ -60,110 +68,46 @@ public class ReservationService {
     }
 
     public ReservationModel createReservation(ReservationCreateModel reservationCreateModel) {
-        User userToSave = null;
-        if (reservationCreateModel.getUser() != null) {
-            Optional<User> optionalUser = userRepository.findUserByFirstNameAndLastNameAndEmailAndPhoneNumber(
-                    reservationCreateModel.getUser().getFirstName(),
-                    reservationCreateModel.getUser().getLastName(),
-                    reservationCreateModel.getUser().getEmail(),
-                    reservationCreateModel.getUser().getPhoneNumber());
+        ReservationCreateModel reservation = new ReservationCreateModel();
+        AddressCreateModel address = new AddressCreateModel();
 
-            if (optionalUser.isPresent()) {
-                userToSave = optionalUser.get();
-            } else {
-                UserCreateModel model = new UserCreateModel();
-                model.setFirstName(reservationCreateModel.getUser().getFirstName());
-                model.setLastName(reservationCreateModel.getUser().getLastName());
-                model.setEmail(reservationCreateModel.getUser().getEmail());
-                model.setPhoneNumber(reservationCreateModel.getUser().getPhoneNumber());
-                userToSave = createUser(model);
-            }
-        } else {
-            throw new IllegalArgumentException("User details are required");
-        }
-        reservationCreateModel.setUser(userToSave);
+        address.setCountry(reservationCreateModel.getApartment().getAddress().getCountry());
+        address.setCity(reservationCreateModel.getApartment().getAddress().getCity());
+        address.setLine(reservationCreateModel.getApartment().getAddress().getLine());
+        address.setPostalCode(reservationCreateModel.getApartment().getAddress().getPostalCode());
+        Address addressToSave = addressRepository.save(mapAddressCreateModelToAddressEntity(address));
 
-        Apartment apartmentToSave = null;
-        if (reservationCreateModel.getApartment() != null) {
-            Optional<Apartment> optionalApartment = apartmentRepository.findApartmentByFloorNumberAndRoomNumberAndMinGuestAndMaxGuestAndApartmentTypeAndDescriptionAndApartmentStatusAndPrice(
-                    reservationCreateModel.getApartment().getFloorNumber(),
-                    reservationCreateModel.getApartment().getRoomNumber(),
-                    reservationCreateModel.getApartment().getMinGuest(),
-                    reservationCreateModel.getApartment().getMaxGuest(),
-                    reservationCreateModel.getApartment().getApartmentType(),
-                    reservationCreateModel.getApartment().getDescription(),
-                    reservationCreateModel.getApartment().getApartmentStatus(),
-                    reservationCreateModel.getApartment().getPrice());
+        ApartmentCreateModel apartment = new ApartmentCreateModel();
+        apartment.setApartmentType(reservationCreateModel.getApartment().getApartmentType());
+        apartment.setPrice(reservationCreateModel.getApartment().getPrice());
+        apartment.setDescription(reservationCreateModel.getApartment().getDescription());
+        apartment.setMinGuest(reservationCreateModel.getApartment().getMinGuest());
+        apartment.setMaxGuest(reservationCreateModel.getApartment().getMaxGuest());
+        apartment.setFloorNumber(reservationCreateModel.getApartment().getFloorNumber());
+        apartment.setRoomNumber(reservationCreateModel.getApartment().getRoomNumber());
+        apartment.setAddress(addressToSave);
+        Apartment apartmentToSave = apartmentRepository.save(mapApartmentCreateModelToApartmentEntity(apartment));
+        reservation.setApartment(apartmentToSave);
 
-            if (optionalApartment.isPresent()) {
-                apartmentToSave = optionalApartment.get();
-            } else {
-                ApartmentCreateModel model = new ApartmentCreateModel();
-                model.setFloorNumber(reservationCreateModel.getApartment().getFloorNumber());
-                model.setRoomNumber(reservationCreateModel.getApartment().getRoomNumber());
-                model.setMinGuest(reservationCreateModel.getApartment().getMinGuest());
-                model.setMaxGuest(reservationCreateModel.getApartment().getMaxGuest());
-                model.setApartmentType(reservationCreateModel.getApartment().getApartmentType());
-                model.setDescription(reservationCreateModel.getApartment().getDescription());
-                model.setApartmentStatus(reservationCreateModel.getApartment().getApartmentStatus());
-                model.setPrice(reservationCreateModel.getApartment().getPrice());
-                apartmentToSave = createApartment(model);
-            }
-        } else {
-            throw new IllegalArgumentException("Apartment details are required");
-        }
-        reservationCreateModel.setApartment(apartmentToSave);
+        InvoiceCreateModel invoice = new InvoiceCreateModel();
+        invoice.setPaymentType(reservationCreateModel.getInvoice().getPaymentType());
+        invoice.setAddress(addressToSave);
+        Invoice invoiceToSave = invoiceRepository.save(mapInvoiceCreateModelToInvoiceEntity(invoice));
+        reservation.setInvoice(invoiceToSave);
 
-        Invoice invoiceToSave = null;
-        if (reservationCreateModel.getInvoice() != null) {
-            Optional<Invoice> optionalInvoice = invoiceRepository.findInvoiceByGenerationDateAndPaymentTypeAndPaymentDate(
-                    reservationCreateModel.getInvoice().getGenerationDate(),
-                    reservationCreateModel.getInvoice().getPaymentType(),
-                    reservationCreateModel.getInvoice().getPaymentDate());
+        UserCreateModel user = new UserCreateModel();
+        user.setEmail(reservationCreateModel.getUser().getEmail());
+        user.setFirstName(reservationCreateModel.getUser().getFirstName());
+        user.setLastName(reservationCreateModel.getUser().getLastName());
+        user.setPhoneNumber(reservationCreateModel.getUser().getPhoneNumber());
+        user.setAddress(addressToSave);
 
-            if (optionalInvoice.isPresent()) {
-                invoiceToSave = optionalInvoice.get();
-            } else {
-                InvoiceCreateModel model = new InvoiceCreateModel();
-                model.setGenerationDate(reservationCreateModel.getInvoice().getGenerationDate());
-                model.setPaymentType(reservationCreateModel.getInvoice().getPaymentType());
-                model.setPaymentDate(reservationCreateModel.getInvoice().getPaymentDate());
-                invoiceToSave = createInvoice(model);
-            }
-        }else {
-                throw new IllegalArgumentException("Invoice details are required");
-            }
-        reservationCreateModel.setInvoice(invoiceToSave);
-        return ReservationMapper.mapReservationEntityToReservationModel(reservationRepository.save(ReservationMapper.mapReservationCreateModelToReservationEntity(reservationCreateModel)));
-    }
+        User userToSave = userRepository.save(UserMapper.mapUserCreateModelToUserEntity(user));
+        reservation.setUser(userToSave);
 
-    private User createUser(UserCreateModel userCreatemodel) {
-        User user = new User();
-        user.setFirstName(userCreatemodel.getFirstName());
-        user.setLastName(userCreatemodel.getLastName());
-        user.setEmail(userCreatemodel.getEmail());
-        user.setPhoneNumber(userCreatemodel.getPhoneNumber());
-        return user;
-    }
+        reservation.setStartDate(reservationCreateModel.getStartDate());
+        reservation.setEndDate(reservationCreateModel.getEndDate());
 
-    private Apartment createApartment(ApartmentCreateModel apartmentCreateModel) {
-        Apartment apartment = new Apartment();
-        apartment.setFloorNumber(apartmentCreateModel.getFloorNumber());
-        apartment.setRoomNumber(apartmentCreateModel.getRoomNumber());
-        apartment.setMinGuest(apartmentCreateModel.getMinGuest());
-        apartment.setMaxGuest(apartmentCreateModel.getMaxGuest());
-        apartment.setApartmentType(apartmentCreateModel.getApartmentType());
-        apartment.setDescription(apartmentCreateModel.getDescription());
-        apartment.setApartmentStatus(apartmentCreateModel.getApartmentStatus());
-        apartment.setPrice(apartmentCreateModel.getPrice());
-        return apartment;
-    }
-
-    private Invoice createInvoice(InvoiceCreateModel invoiceCreateModel) {
-        Invoice invoice = new Invoice();
-        invoice.setGenerationDate(invoiceCreateModel.getGenerationDate());
-        invoice.setPaymentType(invoiceCreateModel.getPaymentType());
-        invoice.setPaymentDate(invoiceCreateModel.getPaymentDate());
-        return invoice;
+        return mapReservationEntityToReservationModel(reservationRepository.save(mapReservationCreateModelToReservationEntity(reservation)));
     }
 }
