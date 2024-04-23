@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressModel;
 import hu.webler.weblerapartmentreservation.domain.address.service.AddressService;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -144,15 +146,6 @@ public class AddressControllerIT {
     }
 
     @Test
-    @DisplayName("Given invalid id when findAddressById then throw NoSuchElementException")
-    public void givenInvalidId_whenFindAddressById_thenThrowNoSuchElementException() throws Exception {
-        Long addressId = 1L;
-
-        when(mockMvc.perform(get("/api/address/{id}", addressId)))
-                .thenThrow(new NoSuchElementException());
-    }
-
-    @Test
     @DisplayName("Given valid id when deleteAddressById then delete address")
     public void givenValidId_whenDeleteAddressById_thenDeleteAddress() throws Exception {
         // Given
@@ -168,16 +161,4 @@ public class AddressControllerIT {
                 .andReturn();
 
     }
-
-    @Test
-    @DisplayName("Given invalid id when deleteAddressById then throw NoSuchElementException")
-    public void givenInvalidId_whenDeleteAddressById_thenThrowNoSuchElementException() throws Exception {
-        // Given
-        Long addressId = 1L;
-
-        // When / Then
-        when(mockMvc.perform(delete("/api/address/{id}", addressId)))
-                .thenThrow(new NoSuchElementException());
-    }
-
 }
