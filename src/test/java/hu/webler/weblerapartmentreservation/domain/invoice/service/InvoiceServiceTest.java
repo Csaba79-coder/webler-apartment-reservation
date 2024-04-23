@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -171,5 +172,25 @@ public class InvoiceServiceTest {
         // When / Then
         assertThatThrownBy(() -> invoiceService.createInvoice(invoiceCreateModel))
                 .isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    @DisplayName("Given valid id when deleteInvoiceById then delete invoice")
+    public void givenValidId_whenDeleteInvoiceById_thenDeleteInvoice() throws Exception {
+        // Given
+        Long id = new Random().nextLong();
+        Invoice invoice = InvoiceMapper.mapInvoiceCreateModelToInvoiceEntity(
+                new InvoiceCreateModel(PaymentType.CARD, new Address())
+        );
+        invoice.setId(id);
+        invoiceRepository.save(invoice);
+
+        when(invoiceRepository.findById(id)).thenReturn(Optional.ofNullable(invoice));
+
+        // When
+        invoiceService.deleteInvoice(id);
+
+        // Then
+        verify(invoiceRepository).deleteById(any());
     }
 }
