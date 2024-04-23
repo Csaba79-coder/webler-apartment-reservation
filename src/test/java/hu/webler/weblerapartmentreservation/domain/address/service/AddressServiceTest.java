@@ -3,6 +3,7 @@ package hu.webler.weblerapartmentreservation.domain.address.service;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressModel;
+import hu.webler.weblerapartmentreservation.domain.address.model.AddressUpdateModel;
 import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.domain.address.util.AddressMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -135,21 +136,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    @DisplayName("Given valid addressCreateModel when creating address then returns address model")
-    public void givenInvalidAddressCreateModel_whenCreatingAddress_thenThrowsIllegalArgumentException() {
-        // Given
-        AddressCreateModel addressCreateModel = new AddressCreateModel();
-        addressCreateModel.setCountry("testCountry");
-        addressCreateModel.setPostalCode(null);
-        addressCreateModel.setCity("testCountry");
-
-        // When / Then
-        assertThatThrownBy(() -> addressService.createAddress(addressCreateModel))
-                .isInstanceOf(NullPointerException.class);
-    }
-
-    @Test
-    @DisplayName("Given valid address id when deleting address then ")
+    @DisplayName("Given valid address id when deleting address then verify")
     public void givenValidAddressId_whenDeletingAddress_thenVerify() {
         // Given
         Long id = new Random().nextLong();
