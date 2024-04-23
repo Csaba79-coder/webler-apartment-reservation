@@ -11,8 +11,4 @@ import java.util.Optional;
 
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
-
-    Optional<Apartment> findApartmentByFloorNumberAndRoomNumberAndMinGuestAndMaxGuestAndApartmentTypeAndDescriptionAndApartmentStatusAndPrice(
-            Integer floorNumber, Integer roomNumber, Integer minGuest, Integer maxGuest, ApartmentType apartmentType,
-            String description, ApartmentStatus apartmentStatus, BigDecimal price);
 }
