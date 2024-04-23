@@ -3,7 +3,6 @@ package hu.webler.weblerapartmentreservation.domain.apartment.service;
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
 import hu.webler.weblerapartmentreservation.domain.address.model.AddressCreateModel;
 import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
-import hu.webler.weblerapartmentreservation.domain.address.service.AddressService;
 import hu.webler.weblerapartmentreservation.domain.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.domain.apartment.model.ApartmentCreateModel;
 import hu.webler.weblerapartmentreservation.domain.apartment.model.ApartmentModel;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 public class ApartmentService {
 
     private final ApartmentRepository apartmentRepository;
-    private final AddressService addressService;
     private final AddressRepository addressRepository;
 
     public List<ApartmentModel> findAllApartments() {
