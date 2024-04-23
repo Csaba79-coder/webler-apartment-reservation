@@ -178,7 +178,22 @@ public class ReservationServiceTest {
                 .usingRecursiveComparison()
                 .ignoringFields("id")
                 .isEqualTo(createdReservationModel);
-
-
     }
+
+    @Test
+    @DisplayName("Given missing data when creating reservation then throws NullPointerException")
+    public void givenMissingData_whenCreatingReservation_thenThrowsNullPointerException() {
+        // Given
+        Address address = new Address();
+        User user = new User();
+
+        ReservationCreateModel reservationCreateModel = new ReservationCreateModel();
+        reservationCreateModel.setUser(user);
+
+        // When / Then
+        assertThatThrownBy(() -> reservationService.createReservation(reservationCreateModel))
+                .isInstanceOf(NullPointerException.class);
+    }
+
+
 }
