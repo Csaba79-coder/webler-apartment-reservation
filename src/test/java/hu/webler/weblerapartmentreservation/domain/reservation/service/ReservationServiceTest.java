@@ -1,6 +1,7 @@
 package hu.webler.weblerapartmentreservation.domain.reservation.service;
 
 import hu.webler.weblerapartmentreservation.domain.address.entity.Address;
+import hu.webler.weblerapartmentreservation.domain.address.persistence.AddressRepository;
 import hu.webler.weblerapartmentreservation.domain.apartment.entity.Apartment;
 import hu.webler.weblerapartmentreservation.domain.apartment.persistance.ApartmentRepository;
 import hu.webler.weblerapartmentreservation.domain.apartment.value.ApartmentStatus;
@@ -9,8 +10,10 @@ import hu.webler.weblerapartmentreservation.domain.invoice.entity.Invoice;
 import hu.webler.weblerapartmentreservation.domain.invoice.persistence.InvoiceRepository;
 import hu.webler.weblerapartmentreservation.domain.invoice.value.PaymentType;
 import hu.webler.weblerapartmentreservation.domain.reservation.entity.Reservation;
+import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationCreateModel;
 import hu.webler.weblerapartmentreservation.domain.reservation.model.ReservationModel;
 import hu.webler.weblerapartmentreservation.domain.reservation.persistance.ReservationRepository;
+import hu.webler.weblerapartmentreservation.domain.reservation.util.ReservationMapper;
 import hu.webler.weblerapartmentreservation.domain.user.entity.User;
 import hu.webler.weblerapartmentreservation.domain.user.persistance.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +31,8 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +50,9 @@ public class ReservationServiceTest {
 
     @Mock
     private InvoiceRepository invoiceRepository;
+
+    @Mock
+    private AddressRepository addressRepository;
 
     @InjectMocks
     private ReservationService reservationService;
@@ -72,7 +80,7 @@ public class ReservationServiceTest {
     }
 
     @Test
-    @DisplayName("Given non empty reservation list when renderAllReservations() then returns list of reservation entites")
+    @DisplayName("Given non empty reservation list when renderAllReservations() then returns list of reservation entities")
     public void givenNonEmptyReservationList_whenRenderAllReservations_thenReturnListOfReservationEntities() {
         // Given
         List<Reservation> reservationData = List.of(
@@ -129,5 +137,48 @@ public class ReservationServiceTest {
         assertThatThrownBy(() -> reservationService.renderReservationById(searchId))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("Reservation with id " + searchId + " was not found");
+    }
+
+    @Test
+    @DisplayName("Given valid reservationCreateModel when creating reservation then returns reservation model")
+    public void givenValidReservationCreateModel_whenCreatingReservation_thenReturnsReservationModel() {
+        // Given
+        Address address = new Address(1L, "country", "postalCode", "city", "line");
+
+        Apartment apartment = new Apartment(1L, 1, 1, 1, 1, ApartmentType.SINGLE,
+                "Test", ApartmentStatus.AVAILABLE,
+                new BigDecimal(10), new Address(), new ArrayList<>());
+        User user = new User(1L, "FirstName", "lastName", "Email", "phoneNumber",
+                address, new ArrayList<>());
+        Invoice invoice = new Invoice(1L, LocalDateTime.now(), PaymentType.CARD, LocalDate.now(), address, new ArrayList<>());
+
+        ReservationCreateModel reservationCreateModel = new ReservationCreateModel();
+        reservationCreateModel.setStartDate(LocalDate.of(2024, 4, 23));
+        reservationCreateModel.setEndDate(LocalDate.of(2024,5, 27));
+        reservationCreateModel.setApartment(apartment);
+        reservationCreateModel.setUser(user);
+        reservationCreateModel.setInvoice(invoice);
+
+        // Mock
+        ReservationModel expectedModel = new ReservationModel();
+        expectedModel.setId(1L);
+        expectedModel.setStartDate(LocalDate.of(2024, 4, 23));
+        expectedModel.setEndDate(LocalDate.of(2024,5, 27));
+        expectedModel.setApartment(apartment);
+        expectedModel.setUser(user);
+        expectedModel.setInvoice(invoice);
+
+        when(reservationRepository.save(any())).thenReturn(ReservationMapper.mapReservationCreateModelToReservationEntity(reservationCreateModel));
+
+        // When
+        ReservationModel createdReservationModel = reservationService.createReservation(reservationCreateModel);
+
+        // Then
+        then(expectedModel)
+                .usingRecursiveComparison()
+                .ignoringFields("id")
+                .isEqualTo(createdReservationModel);
+
+
     }
 }
