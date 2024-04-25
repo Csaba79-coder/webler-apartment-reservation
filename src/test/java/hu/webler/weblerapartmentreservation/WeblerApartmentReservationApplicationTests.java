@@ -4,4 +4,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class WeblerApartmentReservationApplicationTests {
+
+  @Test
+    void contextLoads() {
+    }
 }
